@@ -64,14 +64,9 @@ if ($action == 'index') {
         'status'       => optional_param('status', null, PARAM_TEXT),
     ];
 
-    $from = optional_param_array('from', null, PARAM_TEXT);
-    $to = optional_param_array('to', null, PARAM_TEXT);
-    if(!isset($form)) {
-        $form = ['day' => null, 'month' => null, 'year' => null];
-    }
-    if(!isset($to)) {
-        $to = ['day' => date('j'), 'month' => date('n'), 'year' => date('Y')];
-    }
+    $from = optional_param_array('from', ['day' => null, 'month' => null, 'year' => null], PARAM_TEXT);
+    $to = optional_param_array('to', ['day' => date('j'), 'month' => date('n'), 'year' => date('Y')], PARAM_TEXT);
+    
     
     if ($from['day'] > 0 && $from['month'] > 0 && $from['year'] > 0) {
         $filters = array_merge($filters, [
