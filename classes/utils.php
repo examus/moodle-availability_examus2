@@ -28,6 +28,8 @@ namespace availability_examus2;
  * Utils class
  */
 class utils {
+
+    const TOKEN_TIMEOUT = 3 * 60 * 60 * 24;
     /**
      * Provides logict for proctoring fader, exist as soon a possible if
      * no protection is reqired.
@@ -175,9 +177,9 @@ class utils {
         $urlparams = ['examus2_accesscode' => $entry->accesscode];
 
         if (get_config('availability_examus2', 'seamless_auth')) {
-            // Token is valid for 3 month.
+            // Token is valid for 3 day.
             // We want timeframe log enough for user to pass exam, but clean the db at some point.
-            $tokenvaliduntil = time() + (3 * 60 * 60 * 24);
+            $tokenvaliduntil = time() + $this::TOKEN_TIMEOUT;
             $urlparams['token'] = get_user_key('availability_examus2', $user->id, null, false, $tokenvaliduntil);
         }
 
