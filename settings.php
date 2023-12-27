@@ -63,11 +63,7 @@ if ($hassiteconfig) {
         $pluginsettings->add(new admin_setting_configtext('availability_examus2/jwt_secret',
             new lang_string('settings_jwt_secret', 'availability_examus2'),
             new lang_string('settings_jwt_secret_desc', 'availability_examus2'), '', PARAM_TEXT));
-
-        $pluginsettings->add(new admin_setting_configtext('availability_examus2/account_id',
-            new lang_string('settings_account_id', 'availability_examus2'),
-            new lang_string('settings_account_id_desc', 'availability_examus2'), '', PARAM_TEXT));
-
+            
         $pluginsettings->add(new admin_setting_configtext('availability_examus2/account_name',
             new lang_string('settings_account_name', 'availability_examus2'),
             new lang_string('settings_account_name_desc', 'availability_examus2'), '', PARAM_TEXT));

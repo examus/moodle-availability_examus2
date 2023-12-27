@@ -61,6 +61,9 @@ class client {
         'zh' => 'zh-cn'
     ];
 
+    /** @var int Account ID default account id */
+    const ACCOUNT_ID = 1;
+
     /** @var string Secret key for signing JWT token */
     protected $jwtsecret;
 
@@ -69,9 +72,6 @@ class client {
 
     /** @var string API URL */
     protected $examusurl;
-
-    /** @var string Account id withing company */
-    protected $accountid;
 
     /** @var string Company name */
     protected $accountname;
@@ -91,7 +91,6 @@ class client {
         $this->examusurl = get_config('availability_examus2', 'examus_url');
         $this->integrationname = get_config('availability_examus2', 'integration_name');
         $this->jwtsecret = get_config('availability_examus2', 'jwt_secret');
-        $this->accountid = get_config('availability_examus2', 'account_id');
         $this->accountname = get_config('availability_examus2', 'account_name');
         $this->useremails = get_config('availability_examus2', 'user_emails');
     }
@@ -241,7 +240,7 @@ class client {
         }
 
         $data = [
-            'accountId' => $this->accountid,
+            'accountId' => self::ACCOUNT_ID,
             'accountName' => $this->accountname,
             'examId' => $cm->id,
             'examName' => $cm->name,
