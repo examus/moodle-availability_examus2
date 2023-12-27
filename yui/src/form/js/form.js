@@ -10,12 +10,11 @@ M.availability_examus2.form = Y.Object(M.core_availability.plugin);
 
 M.availability_examus2.form.rules = null;
 
-M.availability_examus2.form.initInner = function(rules, warnings, scoring, defaults, groups) {
+M.availability_examus2.form.initInner = function(rules, warnings, scoring, defaults) {
     this.rules = rules;
     this.warnings = warnings;
     this.scoring = scoring;
     this.defaults = defaults;
-    this.groups = groups;
 };
 
 M.availability_examus2.form.instId = 0;
@@ -72,16 +71,16 @@ M.availability_examus2.form.getNode = function(json) {
     }
 
     function switchMoreLessState(target) {
-      var next = target.next();
-      var hidden = next.hasClass('hidden');
+        var next = target.next();
+        var hidden = next.hasClass('hidden');
 
-      if(hidden) {
-          next.removeClass('hidden');
-          target.setContent(target.getAttribute('data-less'));
-      } else {
-          next.addClass('hidden');
-          target.setContent(target.getAttribute('data-more'));
-      }
+        if (hidden) {
+            next.removeClass('hidden');
+            target.setContent(target.getAttribute('data-less'));
+        } else {
+            next.addClass('hidden');
+            target.setContent(target.getAttribute('data-more'));
+        }
     }
 
     function formGroup(id, label, content, fullwidth) {
@@ -126,6 +125,11 @@ M.availability_examus2.form.getNode = function(json) {
             tabTwo.removeClass('hidden');
         }
     }
+
+    // html += formGroup(useDefaultsId, getString('usedefaults'),
+    //     '<input type="checkbox" name="usedefaults" id="' + useDefaultsId + '" value="1">&nbsp;' +
+    //     '<label for="' + useDefaultsId + '">' + getString('enable') + '</label> '
+    // );
 
     html = formGroup(durationId, getString('duration'),
         '<input type="text" name="duration" id="' + durationId + '" class="form-control">'
@@ -211,19 +215,8 @@ M.availability_examus2.form.getNode = function(json) {
         ruleOptions += '<br><input type="checkbox" name="' + key + '" id="' + keyId + '" value="' + key + '" >&nbsp;';
         ruleOptions += '<label for="' + keyId + '" style="white-space: break-spaces">' + getString(key) + '</label>';
     }
+
     html += formGroup(null, getString('rules'), '<div class="rules" style="white-space:nowrap">' + ruleOptions + '</div>');
-
-    var groupOptions = '';
-    for (var i in this.groups) {
-        var group = this.groups[i];
-        groupOptions += '<br>'
-            + '<label>'
-            + '<input value=' + group.id + ' type="checkbox" name="proctoring-groups[' + group.id + ']">'
-            + '&nbsp;' + group.name
-            + '</label>';
-    }
-    html += formGroup(null, getString('select_groups'), '<div class="groups">' + groupOptions + '</div>');
-
 
     var warningOptions = '';
     for (var wkey in this.warnings) {
@@ -265,16 +258,16 @@ M.availability_examus2.form.getNode = function(json) {
 
     var htmlTwo = '';
     htmlTwo += formGroup(null, getString('visible_warnings'),
-                 '<div class="warnings" style="white-space: nowrap" >' + moreLess(warningOptions) + '</div>',
-                 true);
+        '<div class="warnings" style="white-space: nowrap" >' + moreLess(warningOptions) + '</div>',
+        true);
 
     htmlTwo += formGroup(null, getString('scoring_params_header'),
-                 moreLess(scoringOptions),
-                 true);
+        moreLess(scoringOptions),
+        true);
 
     htmlTwo += formGroup(null, getString('biometry_header'),
-                 moreLess(biometryOptions),
-                 true);
+        moreLess(biometryOptions),
+        true);
 
 
     node = Y.Node.create('<span class="availability_examus2-tabs" style="position:relative"></span>');
@@ -316,8 +309,6 @@ M.availability_examus2.form.getNode = function(json) {
                 for (var dwkey in dvalue) {
                     json.warnings[dwkey] = dvalue[dwkey] ? true : false;
                 }
-            } else if (dkey == 'groups') {
-                json.groups = dvalue;
             } else {
                 json[dkey] = dvalue;
 
@@ -419,18 +410,6 @@ M.availability_examus2.form.getNode = function(json) {
         }
     }
 
-    var selectedGroups = (json.groups instanceof Array) ? json.groups : [];
-    selectedGroups = selectedGroups.map(function(gid){ return parseInt(gid); });
-    for (var gi in this.groups) {
-        var selectedGroup = this.groups[gi];
-        var checked = selectedGroups.indexOf(parseInt(selectedGroup.id)) > -1;
-        var groupKey = 'proctoring-groups[' + selectedGroup.id + ']';
-        var ginput = node.one('.groups input[name="' + groupKey + '"]');
-        if(ginput && checked) {
-            ginput.set('checked', 'checked');
-        }
-    }
-
     for (var scoringKey in json.scoring) {
         if (!isNaN(json.scoring[scoringKey])) {
             var sinput = node.one('.examus2-scoring-input[name=' + scoringKey + ']');
@@ -462,7 +441,7 @@ M.availability_examus2.form.getNode = function(json) {
 
     node.delegate('valuechange', function() {
         setSchedulingState();
-    }, '#'+modeId);
+    }, '#' + modeId);
 
     tabButtonOne.on('click', function(e) {
         e.preventDefault();
@@ -481,7 +460,7 @@ M.availability_examus2.form.getNode = function(json) {
 };
 
 M.availability_examus2.form.fillValue = function(value, node) {
-    var rulesInputs, warningsInputs, scoringInputs, groupsInputs, key;
+    var rulesInputs, warningsInputs, scoringInputs, key;
     value.duration = node.one('input[name=duration]').get('value').trim();
     value.mode = node.one('select[name=mode]').get('value').trim();
     value.identification = node.one('select[name=identification]').get('value').trim();
@@ -535,21 +514,33 @@ M.availability_examus2.form.fillValue = function(value, node) {
             value.scoring[key] = null;
         }
     });
-
-    value.groups = [];
-    groupsInputs = node.all('.groups input');
-    Y.each(groupsInputs, function(groupInput) {
-        var id = groupInput.get('value');
-        if (groupInput.get('checked') === true) {
-            value.groups.push(id);
-        }
-    });
 };
 
 M.availability_examus2.form.fillErrors = function(errors, node) {
     var value = {};
     this.fillValue(value, node);
-    if (value.duration === undefined || !(new RegExp('^\\d+$')).test(value.duration) || value.duration % 30 !== 0) {
-        errors.push('availability_examus2:error_setduration');
+    var durationError = document.getElementById('duration_error');
+    if ((value.duration === undefined ||
+            !(new RegExp('^\\d+$')).test(value.duration) ||
+            value.duration % 30 !== 0) &&
+        !durationError) {
+        var sNode = node._node.querySelector('input[name="duration"]').parentNode.parentNode;
+        var span = document.createElement('span');
+        span.style.color = 'red';
+        span.style.fontSize = '11px';
+        span.innerHTML = M.util.get_string('error_setduration', 'availability_examus2');
+        span.classList.add('col-md-10');
+        span.classList.add('col-form-label');
+        span.classList.add('d-flex');
+        span.classList.add('mb-1');
+        span.classList.add('pt-0');
+        span.id = "duration_error";
+        sNode.insertAdjacentElement('afterend', span);
+
+    } else if (value.duration !== undefined &&
+        (new RegExp('^\\d+$')).test(value.duration) &&
+        value.duration % 30 === 0 &&
+        durationError) {
+        durationError.remove();
     }
 };
