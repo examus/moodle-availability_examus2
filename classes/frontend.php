@@ -49,7 +49,10 @@ class frontend extends \core_availability\frontend {
             'auxiliary_camera', 'visible_warnings', 'scoring_params_header',
             'allowmultipledisplays', 'allowvirtualenvironment', 'checkidphotoquality',
             'biometry_header', 'biometry_enabled', 'biometry_skipfail', 'biometry_flow',
-            'biometry_theme',
+            'biometry_theme','duration_desc','proctoring_mode_desc', 'identification_desc',
+            'scheduling_required_desc', 'auto_rescheduling_desc', 'is_trial_desc', 'enable_ldb_desc', 
+            'custom_rules_desc', 'auxiliary_camera_desc', 'rules_desc', 'visible_warnings_desc', 
+            'scoring_params_header_desc',
         ];
 
         foreach (condition::WARNINGS as $key => $value) {
