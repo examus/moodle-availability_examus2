@@ -248,7 +248,7 @@ class common {
      * @return array Two-dimentional array of start and end time for CMs
      */
     public static function get_timebrackets_for_cms($type, $cms) {
-        global $DB;
+        global $DB, $USER;
         $ids = [];
         $results = [];
         foreach ($cms as $cm) {
@@ -258,8 +258,26 @@ class common {
             case 'quiz':
                 $quizes = $DB->get_records_list('quiz', 'id', $ids);
                 foreach ($quizes as $quiz) {
-                    $start = $quiz->timeopen;
-                    $end = $quiz->timeclose;
+                    $start_override = null;
+                    $end_override = null;
+
+                    $members = [];
+                    foreach($DB->get_records('groups_members', ['userid' => $USER->id]) as $member) {
+                        $members[] = $member->id;
+                    }
+                    
+                    if($members) {
+                        $overrides = $DB->get_record_sql(
+                            "SELECT * FROM {quiz_overrides} WHERE quiz = $quiz->id AND groupid IN (" . implode(', ', $members) . ")"
+                        );
+                        if($overrides) {
+                            $start_override = $overrides->timeopen;
+                            $end_override = $overrides->timeclose;
+                        }
+                    }
+                    
+                    $start = $start_override ?: $quiz->timeopen;
+                    $end = $end_override ?: $quiz->timeclose;
 
                     if ($start == 0 || $end == 0) {
                         continue;
@@ -268,7 +286,7 @@ class common {
                     $results[$quiz->id] = [ 'start' => $start, 'end' => $end ];
                 }
                 break;
-
+            
             case 'assign':
                 $assigns = $DB->get_records_list('assign', 'id', $ids);
                 foreach ($assigns as $assign) {
