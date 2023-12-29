@@ -85,7 +85,7 @@ M.availability_examus2.form.getNode = function(json) {
         }
     }
 
-    function formGroup(id, label, content, fullwidth) {
+    function formGroup(id, label, hint, content, fullwidth) {
         var labelcols = fullwidth ? 10 : 5;
         var fieldcols = fullwidth ? 10 : 7;
 
@@ -93,8 +93,17 @@ M.availability_examus2.form.getNode = function(json) {
             '<div class="col-md-' + labelcols + ' col-form-label d-flex pb-0 pr-md-0">' +
             '  <label for="' + id + '">' + label + '</label>' +
             '</div>' +
-            '<div class="col-md-' + fieldcols + ' form-inline align-items-start felement">' +
+            '<div class="col-md-' + fieldcols + ' form-inline align-items-center felement">' +
             content +
+            (hint ?
+                '<a class="btn btn-link p-0 ml-2" role="button" data-container="body" ' +
+                'data-toggle="popover" data-placement="right" data-content="' +
+                '<div class=&quot;no-overflow&quot;>' +
+                '<p>' + hint + '</p></div> " data-html="true" tabindex="0" ' +
+                'data-trigger="focus" data-original-title="" title="">' +
+                '<i class="icon fa fa-question-circle text-info fa-fw " title="Справка по использованию' +
+                '" aria-label="Справка по использованию"> ' +
+                '</i></a>' : '') +
             '</div>' +
             '</span>';
     }
@@ -133,11 +142,11 @@ M.availability_examus2.form.getNode = function(json) {
     //     '<label for="' + useDefaultsId + '">' + getString('enable') + '</label> '
     // );
 
-    html = formGroup(durationId, getString('duration'),
+    html = formGroup(durationId, getString('duration'), getString('duration_desc'),
         '<input type="text" name="duration" id="' + durationId + '" class="form-control">'
     );
 
-    html += formGroup(modeId, getString('proctoring_mode'),
+    html += formGroup(modeId, getString('proctoring_mode'), getString('proctoring_mode_desc'),
         '<select name="mode" id="' + modeId + '" class="custom-select">' +
         '  <option value="online">' + getString('online_mode') + '</option>' +
         '  <option value="identification">' + getString('identification_mode') + '</option>' +
@@ -146,7 +155,7 @@ M.availability_examus2.form.getNode = function(json) {
         '</select>'
     );
 
-    html += formGroup(identificationId, getString('identification'),
+    html += formGroup(identificationId, getString('identification'), getString('identification_desc'),
         '<select name="identification" id="' + identificationId + '" class="custom-select">' +
         '  <option value="passport">' + getString('passport_identification') + '</option>' +
         '  <option value="face">' + getString('face_identification') + '</option>' +
@@ -155,58 +164,58 @@ M.availability_examus2.form.getNode = function(json) {
         '</select>'
     );
 
-    html += formGroup(webCameraMainViewId, getString('web_camera_main_view'),
+    html += formGroup(webCameraMainViewId, getString('web_camera_main_view'), '',
         '<select name="webcameramainview" id="' + webCameraMainViewId + '" class="custom-select">' +
         '  <option value="front">' + getString('web_camera_main_view_front') + '</option>' +
         '  <option value="side">' + getString('web_camera_main_view_side') + '</option>' +
         '</select>'
     );
 
-    html += formGroup(schedulingRequiredId, getString('scheduling_required'),
+    html += formGroup(schedulingRequiredId, getString('scheduling_required'), getString('scheduling_required_desc'),
         '<input type="checkbox" name="scheduling_required" id="' + schedulingRequiredId + '" value="1">&nbsp;' +
         '<label for="' + schedulingRequiredId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(autoReschedulingId, getString('auto_rescheduling'),
+    html += formGroup(autoReschedulingId, getString('auto_rescheduling'), getString('auto_rescheduling_desc'),
         '<input type="checkbox" name="auto_rescheduling" id="' + autoReschedulingId + '" value="1">&nbsp;' +
         '<label for="' + autoReschedulingId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(isTrialId, getString('is_trial'),
+    html += formGroup(isTrialId, getString('is_trial'), getString('is_trial_desc'),
         '<input type="checkbox" name="istrial" id="' + isTrialId + '" value="1">&nbsp;' +
         '<label for="' + isTrialId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(auxiliaryCameraId, getString('auxiliary_camera'),
+    html += formGroup(auxiliaryCameraId, getString('auxiliary_camera'), getString('auxiliary_camera_desc'),
         '<input type="checkbox" name="auxiliarycamera" id="' + auxiliaryCameraId + '" value="1">&nbsp;' +
         '<label for="' + auxiliaryCameraId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(enableLdbId, getString('enable_ldb'),
+    html += formGroup(enableLdbId, getString('enable_ldb'), getString('enable_ldb_desc'),
         '<input type="checkbox" name="ldb" id="' + enableLdbId + '" value="1">&nbsp;' +
         '<label for="' + enableLdbId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(allowmultipledisplaysId, getString('allowmultipledisplays'),
+    html += formGroup(allowmultipledisplaysId, getString('allowmultipledisplays'), '',
         '<input type="checkbox" name="allowmultipledisplays" id="' + allowmultipledisplaysId + '" value="1">&nbsp;' +
         '<label for="' + allowmultipledisplaysId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(allowvirtualenvironmentId, getString('allowvirtualenvironment'),
+    html += formGroup(allowvirtualenvironmentId, getString('allowvirtualenvironment'), '',
         '<input type="checkbox" name="allowvirtualenvironment" id="' + allowvirtualenvironmentId + '" value="1">&nbsp;' +
         '<label for="' + allowvirtualenvironmentId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(checkidphotoqualityId, getString('checkidphotoquality'),
+    html += formGroup(checkidphotoqualityId, getString('checkidphotoquality'), '',
         '<input type="checkbox" name="checkidphotoquality" id="' + checkidphotoqualityId + '" value="1">&nbsp;' +
         '<label for="' + checkidphotoqualityId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(userAgreementId, getString('user_agreement_url'),
+    html += formGroup(userAgreementId, getString('user_agreement_url'), '',
         '<input name="useragreementurl" id="' + userAgreementId + '" class="form-control" value="" />'
     );
 
-    html += formGroup(customRulesId, getString('custom_rules'),
+    html += formGroup(customRulesId, getString('custom_rules'), getString('custom_rules_desc'),
         '<textarea name="customrules" id="' + customRulesId + '" style="width: 100%" class="form-control"></textarea>'
     );
 
@@ -218,7 +227,9 @@ M.availability_examus2.form.getNode = function(json) {
         ruleOptions += '<label for="' + keyId + '" style="white-space: break-spaces">' + getString(key) + '</label>';
     }
 
-    html += formGroup(null, getString('rules'), '<div class="rules" style="white-space:nowrap">' + ruleOptions + '</div>');
+    html += formGroup(null, getString('rules'), getString('rules_desc'),
+        '<div class="rules" style="white-space:nowrap">' + ruleOptions + '</div>'
+    );
 
     var warningOptions = '';
     for (var wkey in this.warnings) {
@@ -238,36 +249,36 @@ M.availability_examus2.form.getNode = function(json) {
             'id="scoring_' + skeyId + '"' +
             'min="' + smin + '" max="' + smax + '">';
 
-        scoringOptions += formGroup(skeyId, getString('scoring_' + skey), scoringInputHTML);
+        scoringOptions += formGroup(skeyId, getString('scoring_' + skey), '', scoringInputHTML);
     }
 
     var biometryOptions = '';
-    biometryOptions += formGroup(biometryEnabledId, getString('biometry_enabled'),
+    biometryOptions += formGroup(biometryEnabledId, getString('biometry_enabled'), '',
         '<input type="checkbox" name="biometryenabled" id="' + biometryEnabledId + '" value="1">&nbsp;' +
         '<label for="' + biometryEnabledId + '">' + getString('enable') + '</label> '
     );
-    biometryOptions += formGroup(biometrySkipfailId, getString('biometry_skipfail'),
+    biometryOptions += formGroup(biometrySkipfailId, getString('biometry_skipfail'), '',
         '<input type="checkbox" name="biometryskipfail" id="' + biometrySkipfailId + '" value="1">&nbsp;' +
         '<label for="' + biometrySkipfailId + '">' + getString('enable') + '</label> '
     );
-    biometryOptions += formGroup(biometryFlowId, getString('biometry_flow'),
+    biometryOptions += formGroup(biometryFlowId, getString('biometry_flow'), '',
         '<input type="text" name="biometryflow" id="' + biometryFlowId + '" class="form-control">'
     );
-    biometryOptions += formGroup(biometryThemeId, getString('biometry_theme'),
+    biometryOptions += formGroup(biometryThemeId, getString('biometry_theme'), '',
         '<input type="text" name="biometrytheme" id="' + biometryThemeId + '" class="form-control">'
     );
 
 
     var htmlTwo = '';
-    htmlTwo += formGroup(null, getString('visible_warnings'),
+    htmlTwo += formGroup(null, getString('visible_warnings'), getString('visible_warnings_desc'),
         '<div class="warnings" style="white-space: nowrap" >' + moreLess(warningOptions) + '</div>',
         true);
 
-    htmlTwo += formGroup(null, getString('scoring_params_header'),
+    htmlTwo += formGroup(null, getString('scoring_params_header'), getString('scoring_params_header_desc'),
         moreLess(scoringOptions),
         true);
 
-    htmlTwo += formGroup(null, getString('biometry_header'),
+    htmlTwo += formGroup(null, getString('biometry_header'), '',
         moreLess(biometryOptions),
         true);
 
