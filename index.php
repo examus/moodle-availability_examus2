@@ -37,17 +37,68 @@ $baseurl = '/availability/condition/examus2/index.php';
 
 $action = optional_param('action', 'index', PARAM_ALPHA);
 
-if ($action == 'renew') {
-    $id = required_param('id', PARAM_TEXT);
-    $force = optional_param('force', false, PARAM_TEXT);
+$PAGE->requires->js_call_amd('availability_examus2/admin', 'init');
 
-    if (\availability_examus2\common::reset_entry(['id' => $id], $force)) {
-        redirect('index.php', get_string('new_entry_created', 'availability_examus2'),
-                 null, \core\output\notification::NOTIFY_SUCCESS);
-    } else {
-        redirect('index.php', get_string('entry_exist', 'availability_examus2'),
-                 null, \core\output\notification::NOTIFY_ERROR);
+$filters = [
+    'courseid'     => optional_param('courseid', null, PARAM_INT),
+    'timemodified' => optional_param('timemodified', null, PARAM_INT),
+    'moduleid'     => optional_param('moduleid', null, PARAM_INT),
+    'userquery'    => optional_param('userquery', null, PARAM_TEXT),
+    'status'       => optional_param('status', null, PARAM_TEXT),
+];
+
+$from = optional_param_array('from', ['day' => null, 'month' => null, 'year' => null], PARAM_TEXT);
+$to = optional_param_array('to', ['day' => date('j'), 'month' => date('n'), 'year' => date('Y')], PARAM_TEXT);
+
+
+if ($from['day'] > 0 && $from['month'] > 0 && $from['year'] > 0) {
+    $filters = array_merge($filters, [
+        'from[day]'     => $from['day'],
+        'from[month]'   => $from['month'],
+        'from[year]'    => $from['year'],
+    ]);
+}
+if ($to['day'] > 0 && $to['month'] > 0 && $to['year'] > 0) {
+    $filters = array_merge($filters, [
+        'to[day]'     => $to['day'],
+        'to[month]'   => $to['month'],
+        'to[year]'    => $to['year'],
+    ]);
+}
+
+$url_param = [];
+                
+foreach($filters as $key_filter => $filter) {
+    $url_param[] =  $key_filter . '=' . $filter;
+}
+
+$url_param_link = implode('&', $url_param);
+
+if ($action == 'renew') {
+    
+    $id = optional_param('id', false, PARAM_TEXT);
+    $ids = optional_param_array('ids', [], PARAM_TEXT);
+    $force = optional_param('force', false, PARAM_TEXT);
+    $forces = optional_param_array('forces', [], PARAM_TEXT);
+    
+    if(!count($ids)) $ids[] = $id;
+    if(!count($forces)) $forces[] = $force;
+    
+    $error_exist_ids = [];
+    $success_exist_ids = [];
+    foreach($ids as $key => $item) {
+        if (!(\availability_examus2\common::reset_entry(['id' => $item], $forces[$key]))) {
+            $error_exist_ids[] = $item;
+        } else {
+            $success_exist_ids[] = $item;
+        }
     }
+    
+    if ($error_exist_ids) {
+        return redirect('index.php?' . $url_param_link, get_string('entry_exist', 'availability_examus2') . '<br> ID: ' . implode(', ', $error_exist_ids), null, \core\output\notification::NOTIFY_ERROR);
+    }
+    
+    return redirect('index.php?' . $url_param_link, get_string('new_entry_created', 'availability_examus2') . '<br> ID: ' . implode(', ', $success_exist_ids), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 if ($action == 'index') {
@@ -56,32 +107,6 @@ if ($action == 'index') {
 
     echo $OUTPUT->header();
     echo $OUTPUT->heading(get_string('pluginname', 'availability_examus2'));
-    $filters = [
-        'courseid'     => optional_param('courseid', null, PARAM_INT),
-        'timemodified' => optional_param('timemodified', null, PARAM_INT),
-        'moduleid'     => optional_param('moduleid', null, PARAM_INT),
-        'userquery'    => optional_param('userquery', null, PARAM_TEXT),
-        'status'       => optional_param('status', null, PARAM_TEXT),
-    ];
-
-    $from = optional_param_array('from', ['day' => null, 'month' => null, 'year' => null], PARAM_TEXT);
-    $to = optional_param_array('to', ['day' => date('j'), 'month' => date('n'), 'year' => date('Y')], PARAM_TEXT);
-    
-    
-    if ($from['day'] > 0 && $from['month'] > 0 && $from['year'] > 0) {
-        $filters = array_merge($filters, [
-            'from[day]'     => $from['day'],
-            'from[month]'   => $from['month'],
-            'from[year]'    => $from['year'],
-        ]);
-    }
-    if ($to['day'] > 0 && $to['month'] > 0 && $to['year'] > 0) {
-        $filters = array_merge($filters, [
-            'to[day]'     => $to['day'],
-            'to[month]'   => $to['month'],
-            'to[year]'    => $to['year'],
-        ]);
-    }
 
     $page = optional_param('page', 0, PARAM_INT);
     $log = new \availability_examus2\log($filters, $page);
