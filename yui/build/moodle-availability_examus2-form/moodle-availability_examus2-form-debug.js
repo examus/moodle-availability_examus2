@@ -90,10 +90,10 @@ M.availability_examus2.form.getNode = function(json) {
         var fieldcols = fullwidth ? 10 : 7;
 
         return '<span class="availability-group form-group mb-2">' +
-            '<div class="col-md-' + labelcols + ' col-form-label d-flex pb-0 pr-md-0">' +
+            '<div class="col-md-' + labelcols + ' col-form-label d-flex flex-nowrap pb-0 pr-md-0">' +
             '  <label for="' + id + '">' + label + '</label>' +
             '</div>' +
-            '<div class="col-md-' + fieldcols + ' form-inline align-items-center felement">' +
+            '<div class="col-md-' + fieldcols + ' form-inline align-items-center flex-nowrap felement">' +
             content +
             (hint ?
                 '<a class="btn btn-link p-0 ml-2" role="button" data-container="body" ' +
@@ -143,7 +143,7 @@ M.availability_examus2.form.getNode = function(json) {
     // );
 
     html = formGroup(durationId, getString('duration'), getString('duration_desc'),
-        '<input type="text" name="duration" id="' + durationId + '" class="form-control">'
+        '<input type="text" name="duration" style="flex-wrap: nowrap;" id="' + durationId + '" class="form-control">'
     );
 
     html += formGroup(modeId, getString('proctoring_mode'), getString('proctoring_mode_desc'),
@@ -211,20 +211,20 @@ M.availability_examus2.form.getNode = function(json) {
         '<label for="' + checkidphotoqualityId + '">' + getString('enable') + '</label> '
     );
 
-    html += formGroup(userAgreementId, getString('user_agreement_url'), '',
+    html += formGroup(userAgreementId, getString('user_agreement_url'), getString('user_agreement_url_desc'),
         '<input name="useragreementurl" id="' + userAgreementId + '" class="form-control" value="" />'
     );
 
     html += formGroup(customRulesId, getString('custom_rules'), getString('custom_rules_desc'),
-        '<textarea name="customrules" id="' + customRulesId + '" style="width: 100%" class="form-control"></textarea>'
+        '<textarea name="customrules" id="' + customRulesId + '" style="flex: 1;" class="form-control"></textarea>'
     );
 
 
     var ruleOptions = '';
     for (var key in this.rules) {
         var keyId = id + '_' + key;
-        ruleOptions += '<br><input type="checkbox" name="' + key + '" id="' + keyId + '" value="' + key + '" >&nbsp;';
-        ruleOptions += '<label for="' + keyId + '" style="white-space: break-spaces">' + getString(key) + '</label>';
+        ruleOptions += '<div style="display:flex;gap:4px;margin-bottom:4px;"><input type="checkbox" name="' + key + '" id="' + keyId + '" value="' + key + '" >&nbsp;';
+        ruleOptions += '<label for="' + keyId + '" style="white-space: break-spaces">' + getString(key) + '</label></div>';
     }
 
     html += formGroup(null, getString('rules'), getString('rules_desc'),
@@ -234,8 +234,8 @@ M.availability_examus2.form.getNode = function(json) {
     var warningOptions = '';
     for (var wkey in this.warnings) {
         var wkeyId = id + '_' + wkey;
-        warningOptions += '<input type="checkbox" name="' + wkey + '" id="' + wkeyId + '" value="' + wkey + '" >&nbsp;';
-        warningOptions += '<label for="' + wkeyId + '" style="white-space: break-spaces">' + getString(wkey) + '</label><br>';
+        warningOptions += '<div style="display:flex;gap:4px;margin-bottom:4px;"><input type="checkbox" name="' + wkey + '" id="' + wkeyId + '" value="' + wkey + '" >&nbsp;';
+        warningOptions += '<label for="' + wkeyId + '" style="white-space: break-spaces">' + getString(wkey) + '</label></div>';
     }
 
     var scoringOptions = '';

@@ -235,3 +235,4 @@ $string['auxiliary_camera_desc'] = 'Makes it mandatory to connect an auxiliary c
 $string['rules_desc'] = 'Selecting test rules from a list. When activated, they are displayed In green collar for both proctors and users.';
 $string['visible_warnings_desc'] = 'When a test taker violates the exam rules, various warnings about violations can be displayed on the screen. Choose which types of violations to show to the test taker and which to hide.<br><b>Important:</b> If you do not select any types, the default values will be used (all violations are shown)';
 $string['scoring_params_header_desc'] = 'You can change the scoring parameters to fine-tune the cheating score calculation for a particular exam.<br><b>Important:</b> If no options are set, the default values will be used (all are shown)';
+$string['user_agreement_url_desc'] = 'A link to the exam rules (URL) on any page. Insert a custom rules page before the exam.';
