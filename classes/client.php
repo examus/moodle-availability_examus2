@@ -256,6 +256,8 @@ class client {
             'visibleWarnings' => $conditiondata['warnings'],
             'ldb' => $conditiondata['ldb'],
             'allowMultipleDisplays' => $conditiondata['allowmultipledisplays'],
+            'desktopAppForbiddenProcesses' => $conditiondata['desktopAppForbiddenProcesses'],
+            'desktopAppAllowedProcesses' => $conditiondata['desktopAppAllowedProcesses'],
             'allowVirtualEnvironment' => $conditiondata['allowvirtualenvironment'],
             'checkIdPhotoQuality' => $conditiondata['checkidphotoquality'],
             'webCameraMainView' => $conditiondata['webcameramainview'],
