@@ -52,7 +52,9 @@ class frontend extends \core_availability\frontend {
             'biometry_theme','duration_desc','proctoring_mode_desc', 'identification_desc',
             'scheduling_required_desc', 'auto_rescheduling_desc', 'is_trial_desc', 'enable_ldb_desc', 
             'custom_rules_desc', 'auxiliary_camera_desc', 'rules_desc', 'visible_warnings_desc', 
-            'scoring_params_header_desc',
+            'scoring_params_header_desc','desktop_app_forbidden_processes',
+            'desktop_app_allowed_processes','desktop_app_forbidden_processes_desc',
+            'desktop_app_allowed_processes_desc'
         ];
 
         foreach (condition::WARNINGS as $key => $value) {
