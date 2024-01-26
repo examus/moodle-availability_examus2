@@ -228,6 +228,8 @@ class client {
      */
     public function exam_data($course, $cm) {
         $conditiondata = $this->condition->to_json();
+        $desktopAppForbiddenProcesses = json_decode($conditiondata['desktopAppForbiddenProcesses'], true);
+        $desktopAppAllowedProcesses = json_decode($conditiondata['desktopAppAllowedProcesses'], true);
 
         $customrules = $conditiondata['customrules'];
         $customrules = empty($customrules) ? '' : $customrules;
@@ -256,8 +258,8 @@ class client {
             'visibleWarnings' => $conditiondata['warnings'],
             'ldb' => $conditiondata['ldb'],
             'allowMultipleDisplays' => $conditiondata['allowmultipledisplays'],
-            'desktopAppForbiddenProcesses' => $conditiondata['desktopAppForbiddenProcesses'],
-            'desktopAppAllowedProcesses' => $conditiondata['desktopAppAllowedProcesses'],
+            'desktopAppForbiddenProcesses' => $desktopAppForbiddenProcesses,
+            'desktopAppAllowedProcesses' => $desktopAppAllowedProcesses,
             'allowVirtualEnvironment' => $conditiondata['allowvirtualenvironment'],
             'checkIdPhotoQuality' => $conditiondata['checkidphotoquality'],
             'webCameraMainView' => $conditiondata['webcameramainview'],
@@ -266,7 +268,7 @@ class client {
                 ['custom_rules' => $customrules]
             ),
         ];
-
+        
         return $data;
     }
 
