@@ -109,7 +109,7 @@ if ($action == 'index') {
     echo $OUTPUT->heading(get_string('pluginname', 'availability_examus2'));
 
     $page = optional_param('page', 0, PARAM_INT);
-    $log = new \availability_examus2\log($filters, $page);
+    $log = new \availability_examus2\log($filters, $page, $url_param_link);
     $log->render_filter_form();
     $log->render_table();
 }
