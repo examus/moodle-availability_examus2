@@ -109,6 +109,12 @@ class defaults_form extends \moodleform {
         $mform->addElement('textarea', 'customrules', get_string('custom_rules', 'availability_examus2'));
         $mform->setType('customrules', PARAM_TEXT);
 
+        $mform->addElement('textarea', 'desktopAppForbiddenProcesses', get_string('desktop_app_forbidden_processes', 'availability_examus2'));
+        $mform->setType('desktopAppForbiddenProcesses', PARAM_TEXT);
+        
+        $mform->addElement('textarea', 'desktopAppAllowedProcesses', get_string('desktop_app_allowed_processes', 'availability_examus2'));
+        $mform->setType('desktopAppAllowedProcesses', PARAM_TEXT);
+
         $mform->addElement('header', 'visible_warnings', get_string('visible_warnings', 'availability_examus2'));
         foreach (condition::WARNINGS as $key => $value) {
             $mform->addElement('advcheckbox', 'warnings['.$key.']', get_string($key, 'availability_examus2'));

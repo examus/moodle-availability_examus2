@@ -42,7 +42,8 @@ M.availability_examus2.form.getNode = function(json) {
     var biometryThemeId = id + '_biometryTheme';
     var userAgreementId = id + '_userAgreement';
     var webCameraMainViewId = id + '_webCameraMainView';
-
+    var desktopAppForbiddenProcessesId = id + '_desktopAppForbiddenProcesses';
+    var desktopAppAllowedProcessesId = id + '_desktopAppAllowedProcesses';
 
     var tabButtonOne, tabButtonTwo, tabOne, tabTwo;
 
@@ -107,7 +108,7 @@ M.availability_examus2.form.getNode = function(json) {
     }
 
     function setSchedulingState() {
-        var manualmodes = ['normal', 'identification'];
+        var manualmodes = ['online', 'identification'];
         var mode = node.one('select[name=mode]').get('value').trim();
         var checked = manualmodes.indexOf(mode) >= 0;
         node.one('#' + schedulingRequiredId).set('checked', checked);
@@ -214,14 +215,30 @@ M.availability_examus2.form.getNode = function(json) {
     );
 
     html += formGroup(customRulesId, getString('custom_rules'), getString('custom_rules_desc'),
-        '<textarea name="customrules" id="' + customRulesId + '" style="flex: 1;" class="form-control"></textarea>'
+        '<textarea name="customrules" id="' + customRulesId + '" class="form-control"></textarea>'
     );
 
+    html += formGroup(
+        desktopAppForbiddenProcessesId,
+        getString('desktop_app_forbidden_processes'),
+        getString('desktop_app_forbidden_processes_desc'),
+        '<textarea name="desktopAppForbiddenProcesses" id="' +
+        desktopAppForbiddenProcessesId + '" class="form-control"></textarea>'
+    );
+
+    html += formGroup(
+        desktopAppAllowedProcessesId,
+        getString('desktop_app_allowed_processes'),
+        getString('desktop_app_allowed_processes_desc'),
+        '<textarea name="desktopAppAllowedProcesses" id="' +
+        desktopAppAllowedProcessesId + '" class="form-control"></textarea>'
+    );
 
     var ruleOptions = '';
     for (var key in this.rules) {
         var keyId = id + '_' + key;
-        ruleOptions += '<div style="display:flex;gap:4px;margin-bottom:4px;"><input type="checkbox" name="' + key + '" id="' + keyId + '" value="' + key + '" >&nbsp;';
+        ruleOptions += '<div style="display:flex;gap:4px;margin-bottom:4px;"><input type="checkbox" name="' +
+            key + '" id="' + keyId + '" value="' + key + '" >&nbsp;';
         ruleOptions += '<label for="' + keyId + '" style="white-space: break-spaces">' + getString(key) + '</label></div>';
     }
 
@@ -229,10 +246,12 @@ M.availability_examus2.form.getNode = function(json) {
         '<div class="rules" style="white-space:nowrap">' + ruleOptions + '</div>'
     );
 
+
     var warningOptions = '';
     for (var wkey in this.warnings) {
         var wkeyId = id + '_' + wkey;
-        warningOptions += '<div style="display:flex;gap:4px;margin-bottom:4px;"><input type="checkbox" name="' + wkey + '" id="' + wkeyId + '" value="' + wkey + '" >&nbsp;';
+        warningOptions += '<div style="display:flex;gap:4px;margin-bottom:4px;"><input type="checkbox" name="' +
+            wkey + '" id="' + wkeyId + '" value="' + wkey + '" >&nbsp;';
         warningOptions += '<label for="' + wkeyId + '" style="white-space: break-spaces">' + getString(wkey) + '</label></div>';
     }
 
@@ -434,6 +453,22 @@ M.availability_examus2.form.getNode = function(json) {
         node.one('#' + customRulesId).set('value', json.customrules);
     }
 
+    if (json.desktopAppForbiddenProcesses !== undefined) {
+        try {
+            node.one('#' + desktopAppForbiddenProcessesId).set('value', JSON.parse(json.desktopAppForbiddenProcesses).join('\n'));
+        } catch (e) {
+            node.one('#' + desktopAppForbiddenProcessesId).set('value', json.desktopAppForbiddenProcesses);
+        }
+    }
+
+    if (json.desktopAppAllowedProcesses !== undefined) {
+        try {
+            node.one('#' + desktopAppAllowedProcessesId).set('value', JSON.parse(json.desktopAppAllowedProcesses).join('\n'));
+        } catch (e) {
+            node.one('#' + desktopAppAllowedProcessesId).set('value', json.desktopAppAllowedProcesses);
+        }
+    }
+
     if (json.useragreementurl !== undefined) {
         node.one('#' + userAgreementId).set('value', json.useragreementurl);
     }
@@ -480,6 +515,14 @@ M.availability_examus2.form.fillValue = function(value, node) {
     value.scheduling_required = node.one('input[name=scheduling_required]').get('checked');
     value.istrial = node.one('input[name=istrial]').get('checked');
     value.customrules = node.one('textarea[name=customrules]').get('value').trim();
+    value.desktopAppForbiddenProcesses = JSON.stringify(node.one('textarea[name=desktopAppForbiddenProcesses]')
+        .get('value').split('\n').filter(function(line) {
+            return line.trim();
+        }));
+    value.desktopAppAllowedProcesses = JSON.stringify(node.one('textarea[name=desktopAppAllowedProcesses]')
+        .get('value').split('\n').filter(function(line) {
+            return line.trim();
+        }));
     value.useragreementurl = node.one('input[name=useragreementurl]').get('value').trim();
     value.auxiliarycamera = node.one('input[name=auxiliarycamera]').get('checked');
     value.ldb = node.one('input[name=ldb]').get('checked');

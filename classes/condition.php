@@ -46,6 +46,7 @@ class condition extends \core_availability\condition {
         'checkidphotoquality', 'webcameramainview',
         'scoring', 'warnings', 'rules', 'customrules', 'groups',
         'biometryenabled', 'biometryskipfail', 'biometryflow', 'biometrytheme',
+        'desktopAppForbiddenProcesses','desktopAppAllowedProcesses',
     ];
 
     /** @var array List of default values for visible warnings */
@@ -135,6 +136,12 @@ class condition extends \core_availability\condition {
 
     /** @var bool Auxiliary camera enabled */
     public $auxiliarycamera = false;
+
+    /** @var string All app forbidden processes */
+    public $desktopAppForbiddenProcesses = null;
+
+    /** @var string All app allowed processes */
+    public $desktopAppAllowedProcesses = null;
 
     /** @var bool Allow to use multiple displays */
     public $allowmultipledisplays = false;
@@ -234,6 +241,14 @@ class condition extends \core_availability\condition {
 
         if (!empty($structure->useragreementurl)) {
             $this->useragreementurl = $structure->useragreementurl;
+        }
+        
+        if (!empty($structure->desktopAppForbiddenProcesses)) {
+            $this->desktopAppForbiddenProcesses = $structure->desktopAppForbiddenProcesses;
+        }
+        
+        if (!empty($structure->desktopAppAllowedProcesses)) {
+            $this->desktopAppAllowedProcesses = $structure->desktopAppAllowedProcesses;
         }
 
         if (!empty($structure->biometryflow)) {
@@ -398,6 +413,8 @@ class condition extends \core_availability\condition {
             'identification' => $this->identification,
             'useragreementurl' => $this->useragreementurl,
             'auxiliarycamera' => (bool) $this->auxiliarycamera,
+            'desktopAppForbiddenProcesses' => $this->desktopAppForbiddenProcesses,
+            'desktopAppAllowedProcesses' => $this->desktopAppAllowedProcesses,
             'customrules' => $this->customrules,
         ];
     }
