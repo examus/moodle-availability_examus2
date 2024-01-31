@@ -73,12 +73,13 @@ class log {
      * @param array $filters Filters
      * @param integer $page Page
      */
-    public function __construct($filters, $page) {
+    public function __construct($filters, $page, $url_param_link) {
         global $PAGE;
 
         $this->url = $PAGE->url;
         $this->filters = $filters;
         $this->page = $page;
+        $this->url_param_link = $url_param_link;
 
         $this->url->params($filters);
 
@@ -197,12 +198,13 @@ class log {
         $table = new \flexible_table('availability_examus2_table');
 
         $table->define_columns([
-            'timefinish', 'timescheduled', 'u_email',
+            'selected', 'timefinish', 'timescheduled', 'u_email',
             'courseid', 'cmid', 'status', 'review_link', 'score', 'details',
             'create_entry',
         ]);
 
         $table->define_headers([
+            "<input class='js-all-checkbox' type='checkbox' name='id' value='" . $entry->id . "'>",
             get_string('time_finish', 'availability_examus2'),
             get_string('time_scheduled', 'availability_examus2'),
             get_string('user'),
@@ -212,9 +214,9 @@ class log {
             get_string('log_review', 'availability_examus2'),
             get_string('score', 'availability_examus2'),
             '',
-            ''
+            '<input type="button" value="' . get_string('new_entry', 'availability_examus2') . '" class="btn btn-secondary js-new-entry-all-btn" disabled="disabled">'
         ]);
-
+        
         $table->define_baseurl($this->url);
         $table->sortable(true);
         $table->no_sorting('courseid');
@@ -234,8 +236,12 @@ class log {
 
         if (!empty($entries)) {
             foreach ($entries as $entry) {
-                $row = [];
+                $scheduled = $entry->status == 'scheduled' && $entry->timescheduled;
 
+                $notstarted = $entry->status == 'new' || $scheduled;
+                
+                $row = [];
+                $row[] = "<input class='js-item-checkbox' type='checkbox' name='id' force='" . (bool)$notstarted . "' value='" . $entry->id . "'>";
                 $row[] = common::format_date($entry->timefinish);
 
                 if ($entry->timescheduled) {
@@ -273,10 +279,6 @@ class log {
                 $row[] = get_string('status_' . $entry->status, 'availability_examus2');
                 $row[] = implode(',&nbsp;', $reportlinks);
 
-                $scheduled = $entry->status == 'scheduled' && $entry->timescheduled;
-
-                $notstarted = $entry->status == 'new' || $scheduled;
-
                 $row[] = $entry->score;
 
                 $detailsurl = new \moodle_url('/availability/condition/examus2/index.php', [
@@ -290,14 +292,14 @@ class log {
                 // Consequences unknown.
                 if (!$notstarted) {
                     $row[] =
-                        "<form action='index.php' method='post'>" .
+                        "<form action='index.php?" . $this->url_param_link . "' method='post'>" .
                            "<input type='hidden' name='id' value='" . $entry->id . "'>" .
                            "<input type='hidden' name='action' value='renew'>" .
                            "<input type='submit' value='" . get_string('new_entry', 'availability_examus2') . "'>".
                         "</form>";
                 } else {
                     $row[] =
-                        "<form action='index.php' method='post'>" .
+                        "<form action='index.php?" . $this->url_param_link . "' method='post'>" .
                            "<input type='hidden' name='id' value='" . $entry->id . "'>" .
                            "<input type='hidden' name='force' value='true'>" .
                            "<input type='hidden' name='action' value='renew'>" .
@@ -571,12 +573,16 @@ class log {
         }
         echo html_writer::end_div();
 
+        echo html_writer::start_div(null, ['class' => 'd-flex', 'style' => 'gap: 10px;']);
+
         echo html_writer::empty_tag('input', [
             'type' => 'submit',
             'value' => get_string('apply_filter', 'availability_examus2'),
             'class' => 'btn btn-secondary'
         ]);
 
+        echo html_writer::end_div();
+        
         echo html_writer::end_div();
         echo html_writer::end_tag('form');
     }
