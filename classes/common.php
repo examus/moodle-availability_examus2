@@ -261,19 +261,28 @@ class common {
                     $start_override = null;
                     $end_override = null;
 
-                    $members = [];
-                    foreach($DB->get_records('groups_members', ['userid' => $USER->id]) as $member) {
-                        $members[] = $member->id;
-                    }
-                    
-                    if($members) {
-                        $overrides = $DB->get_record_sql(
-                            "SELECT * FROM {quiz_overrides} WHERE quiz = $quiz->id AND groupid IN (" . implode(', ', $members) . ")"
-                        );
-                        if($overrides) {
-                            $start_override = $overrides->timeopen;
-                            $end_override = $overrides->timeclose;
+                    $overrides_user = $DB->get_record_sql(
+                        "SELECT * FROM {quiz_overrides} WHERE quiz = $quiz->id AND userid = $USER->id"
+                    );
+
+                    if(!$overrides_user) {
+                        $members = [];
+                        foreach($DB->get_records('groups_members', ['userid' => $USER->id]) as $member) {
+                            $members[] = $member->id;
                         }
+                        
+                        if($members) {
+                            $overrides = $DB->get_record_sql(
+                                "SELECT * FROM {quiz_overrides} WHERE quiz = $quiz->id AND groupid IN (" . implode(', ', $members) . ")"
+                            );
+                            if($overrides) {
+                                $start_override = $overrides->timeopen;
+                                $end_override = $overrides->timeclose;
+                            }
+                        }
+                    } else {
+                        $start_override = $overrides_user->timeopen;
+                        $end_override = $overrides_user->timeclose;
                     }
                     
                     $start = $start_override ?: $quiz->timeopen;
