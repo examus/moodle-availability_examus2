@@ -268,7 +268,7 @@ class common {
                     if(!$overrides_user) {
                         $members = [];
                         foreach($DB->get_records('groups_members', ['userid' => $USER->id]) as $member) {
-                            $members[] = $member->id;
+                            $members[] = $member->groupid;
                         }
                         
                         if($members) {
