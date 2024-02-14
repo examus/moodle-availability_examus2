@@ -344,6 +344,7 @@ class log {
      */
     public function get_course_list() {
         global $DB;
+        global $USER;
 
         $courses = [];
 
@@ -354,6 +355,13 @@ class log {
                 $coursecontext = \context_course::instance($course->id);
                 if (!has_capability('availability/examus2:logaccess_all', $sitecontext)) {
                     if (!has_capability('availability/examus2:logaccess_course', $coursecontext)) {
+                        continue;
+                    }
+                }
+
+                if (!is_siteadmin($USER->id)) {
+                    if (has_capability('availability/examus2:logaccess_course', $coursecontext) && 
+                        !is_enrolled($coursecontext, $USER->id)) {
                         continue;
                     }
                 }
