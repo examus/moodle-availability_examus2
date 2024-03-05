@@ -240,3 +240,6 @@ $string['scoring_params_header_desc'] = 'You can change the scoring parameters t
 $string['desktop_app_forbidden_processes_desc'] = 'Use line breaks to separate applications';
 $string['desktop_app_allowed_processes_desc'] = 'Use line breaks to separate applications';
 $string['user_agreement_url_desc'] = 'A link to the exam rules (URL) on any page. Insert a custom rules page before the exam.';
+
+$string['enabledAllowedProcesses'] = 'Enable allowed processes';
+$string['enabledForbiddenProcesses'] = 'Enable forbidden processes';
