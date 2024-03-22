@@ -44,7 +44,9 @@ M.availability_examus2.form.getNode = function(json) {
     var biometryThemeId = id + '_biometryTheme';
     var userAgreementId = id + '_userAgreement';
     var webCameraMainViewId = id + '_webCameraMainView';
+    var enabledForbiddenProcessesId = id + '_enabledForbiddenProcesses';
     var desktopAppForbiddenProcessesId = id + '_desktopAppForbiddenProcesses';
+    var enabledAllowedProcessesId = id + '_enabledAllowedProcesses';
     var desktopAppAllowedProcessesId = id + '_desktopAppAllowedProcesses';
 
     var tabButtonOne, tabButtonTwo, tabOne, tabTwo;
@@ -220,12 +222,22 @@ M.availability_examus2.form.getNode = function(json) {
         '<textarea name="customrules" id="' + customRulesId + '" class="form-control"></textarea>'
     );
 
+    html += formGroup(enabledForbiddenProcessesId, getString('enabledForbiddenProcesses'), '',
+        '<input type="checkbox" name="enabledForbiddenProcesses" id="' + enabledForbiddenProcessesId + '" value="0">&nbsp;' +
+        '<label for="' + enabledForbiddenProcessesId + '">' + getString('enable') + '</label> '
+    );
+
     html += formGroup(
         desktopAppForbiddenProcessesId,
         getString('desktop_app_forbidden_processes'),
         getString('desktop_app_forbidden_processes_desc'),
         '<textarea name="desktopAppForbiddenProcesses" id="' +
         desktopAppForbiddenProcessesId + '" class="form-control"></textarea>'
+    );
+
+    html += formGroup(enabledAllowedProcessesId, getString('enabledAllowedProcesses'), '',
+        '<input type="checkbox" name="enabledAllowedProcesses" id="' + enabledAllowedProcessesId + '" value="0">&nbsp;' +
+        '<label for="' + enabledAllowedProcessesId + '">' + getString('enable') + '</label> '
     );
 
     html += formGroup(
@@ -455,12 +467,22 @@ M.availability_examus2.form.getNode = function(json) {
         node.one('#' + customRulesId).set('value', json.customrules);
     }
 
+    if (json.enabledForbiddenProcesses !== undefined) {
+        node.one('#' + enabledForbiddenProcessesId).set('checked', json.enabledForbiddenProcesses ? 'checked' : null);
+    }
+
     if (json.desktopAppForbiddenProcesses !== undefined) {
         try {
             node.one('#' + desktopAppForbiddenProcessesId).set('value', JSON.parse(json.desktopAppForbiddenProcesses).join('\n'));
         } catch (e) {
             node.one('#' + desktopAppForbiddenProcessesId).set('value', json.desktopAppForbiddenProcesses);
         }
+        node.one('#' + desktopAppForbiddenProcessesId)
+            .set('disabled', node.one('#' + enabledForbiddenProcessesId).get('checked') ? null : 'disabled');
+    }
+
+    if (json.enabledAllowedProcesses !== undefined) {
+        node.one('#' + enabledAllowedProcessesId).set('checked', json.enabledAllowedProcesses ? 'checked' : null);
     }
 
     if (json.desktopAppAllowedProcesses !== undefined) {
@@ -469,6 +491,8 @@ M.availability_examus2.form.getNode = function(json) {
         } catch (e) {
             node.one('#' + desktopAppAllowedProcessesId).set('value', json.desktopAppAllowedProcesses);
         }
+        node.one('#' + desktopAppAllowedProcessesId)
+            .set('disabled', node.one('#' + enabledAllowedProcessesId).get('checked') ? null : 'disabled');
     }
 
     if (json.useragreementurl !== undefined) {
@@ -517,10 +541,12 @@ M.availability_examus2.form.fillValue = function(value, node) {
     value.scheduling_required = node.one('input[name=scheduling_required]').get('checked');
     value.istrial = node.one('input[name=istrial]').get('checked');
     value.customrules = node.one('textarea[name=customrules]').get('value').trim();
+    value.enabledForbiddenProcesses = node.one('input[name=enabledForbiddenProcesses]').get('checked');
     value.desktopAppForbiddenProcesses = JSON.stringify(node.one('textarea[name=desktopAppForbiddenProcesses]')
         .get('value').split('\n').filter(function(line) {
             return line.trim();
         }));
+    value.enabledAllowedProcesses = node.one('input[name=enabledAllowedProcesses]').get('checked');
     value.desktopAppAllowedProcesses = JSON.stringify(node.one('textarea[name=desktopAppAllowedProcesses]')
         .get('value').split('\n').filter(function(line) {
             return line.trim();
@@ -545,6 +571,23 @@ M.availability_examus2.form.fillValue = function(value, node) {
             value.rules[key] = true;
         } else {
             value.rules[key] = false;
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.name == 'enabledForbiddenProcesses') {
+            if (e.target.checked) {
+                document.querySelector('textarea[name=desktopAppForbiddenProcesses]').disabled = false;
+            } else {
+                document.querySelector('textarea[name=desktopAppForbiddenProcesses]').disabled = 'disabled';
+            }
+        }
+        if (e.target.name == 'enabledAllowedProcesses') {
+            if (e.target.checked) {
+                document.querySelector('textarea[name=desktopAppAllowedProcesses]').disabled = false;
+            } else {
+                document.querySelector('textarea[name=desktopAppAllowedProcesses]').disabled = 'disabled';
+            }
         }
     });
 

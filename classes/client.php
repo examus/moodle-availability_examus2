@@ -258,8 +258,6 @@ class client {
             'visibleWarnings' => $conditiondata['warnings'],
             'ldb' => $conditiondata['ldb'],
             'allowMultipleDisplays' => $conditiondata['allowmultipledisplays'],
-            'desktopAppForbiddenProcesses' => $desktopAppForbiddenProcesses,
-            'desktopAppAllowedProcesses' => $desktopAppAllowedProcesses,
             'allowVirtualEnvironment' => $conditiondata['allowvirtualenvironment'],
             'checkIdPhotoQuality' => $conditiondata['checkidphotoquality'],
             'webCameraMainView' => $conditiondata['webcameramainview'],
@@ -268,6 +266,14 @@ class client {
                 ['custom_rules' => $customrules]
             ),
         ];
+        
+        if($conditiondata['enabledForbiddenProcesses']) {
+            $data['desktopAppForbiddenProcesses'] = $desktopAppForbiddenProcesses;
+        }
+        
+        if($conditiondata['enabledAllowedProcesses']) {
+            $data['desktopAppAllowedProcesses'] = $desktopAppAllowedProcesses;
+        }
         
         return $data;
     }

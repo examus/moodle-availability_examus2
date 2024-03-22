@@ -55,7 +55,7 @@ class frontend extends \core_availability\frontend {
             'scoring_params_header_desc','desktop_app_forbidden_processes',
             'desktop_app_allowed_processes','desktop_app_forbidden_processes_desc',
             'desktop_app_allowed_processes_desc','scoring_params_header_desc',
-            'user_agreement_url_desc',
+            'user_agreement_url_desc','enabledAllowedProcesses','enabledForbiddenProcesses'
         ];
 
         foreach (condition::WARNINGS as $key => $value) {

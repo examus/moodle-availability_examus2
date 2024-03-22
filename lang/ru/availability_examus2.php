@@ -240,3 +240,6 @@ $string['scoring_params_header_desc'] = 'Для тонкой настройки 
 $string['desktop_app_forbidden_processes_desc'] = 'Используйте перенос строки для разделения приложений';
 $string['desktop_app_allowed_processes_desc'] = 'Используйте перенос строки для разделения приложений';
 $string['user_agreement_url_desc'] = 'Ссылка на правила (URL) на любой странице. Предназначено для вставки собственной страницы с правилами перед прохождением экзамена.';
+
+$string['enabledAllowedProcesses'] = 'Включить разрешенные процессы';
+$string['enabledForbiddenProcesses'] = 'Включить запрещенные процессы';

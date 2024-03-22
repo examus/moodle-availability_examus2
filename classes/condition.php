@@ -46,7 +46,8 @@ class condition extends \core_availability\condition {
         'checkidphotoquality', 'webcameramainview',
         'scoring', 'warnings', 'rules', 'customrules', 'groups',
         'biometryenabled', 'biometryskipfail', 'biometryflow', 'biometrytheme',
-        'desktopAppForbiddenProcesses','desktopAppAllowedProcesses',
+        'desktopAppForbiddenProcesses','desktopAppAllowedProcesses','enabledForbiddenProcesses',
+        'enabledAllowedProcesses'
     ];
 
     /** @var array List of default values for visible warnings */
@@ -243,8 +244,16 @@ class condition extends \core_availability\condition {
             $this->useragreementurl = $structure->useragreementurl;
         }
         
+        if (!empty($structure->enabledForbiddenProcesses)) {
+            $this->enabledForbiddenProcesses = $structure->enabledForbiddenProcesses;
+        }
+        
         if (!empty($structure->desktopAppForbiddenProcesses)) {
             $this->desktopAppForbiddenProcesses = $structure->desktopAppForbiddenProcesses;
+        }
+        
+        if (!empty($structure->enabledAllowedProcesses)) {
+            $this->enabledAllowedProcesses = $structure->enabledAllowedProcesses;
         }
         
         if (!empty($structure->desktopAppAllowedProcesses)) {
@@ -413,7 +422,9 @@ class condition extends \core_availability\condition {
             'identification' => $this->identification,
             'useragreementurl' => $this->useragreementurl,
             'auxiliarycamera' => (bool) $this->auxiliarycamera,
+            'enabledForbiddenProcesses' => (bool)$this->enabledForbiddenProcesses,
             'desktopAppForbiddenProcesses' => $this->desktopAppForbiddenProcesses,
+            'enabledAllowedProcesses' => (bool)$this->enabledAllowedProcesses,
             'desktopAppAllowedProcesses' => $this->desktopAppAllowedProcesses,
             'customrules' => $this->customrules,
         ];
