@@ -1,7 +1,7 @@
 # EXAMUS2 MOODLE PLUGIN
 
 ## Requirements
-Examus plugin was tested with Moodle versions 3.8 to 4.1.
+Examus plugin was tested with Moodle versions 3.8 to 4.4.
 
 ## Installation and integration
 

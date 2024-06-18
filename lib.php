@@ -29,6 +29,7 @@ use availability_examus2\utils;
  * Hooks into head rendering. Adds proctoring fader/shade and accompanying javascript
  * This is used to prevent users from seeing questions before it is known that
  * attempt is viewed thorough Examus WebApp
+ * Should be removed after end of life support for Moodle 4.3
  *
  * @return string
  */
