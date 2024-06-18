@@ -418,6 +418,7 @@ class condition extends \core_availability\condition {
             'rules' => (array) $this->rules,
             'warnings' => (array) $this->warnings,
             'scoring' => (array) $this->scoring,
+            'groups' => (array) $this->groups,
             'istrial' => (bool) $this->istrial,
             'identification' => $this->identification,
             'useragreementurl' => $this->useragreementurl,

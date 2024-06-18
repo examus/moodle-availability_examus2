@@ -44,7 +44,7 @@ class frontend extends \core_availability\frontend {
             'auto_rescheduling', 'enable', 'scheduling_required',
             'identification', 'face_passport_identification', 'face_identification',
             'passport_identification', 'skip_identification', 'enable_ldb',
-            'is_trial', 'custom_rules', 'user_agreement_url', 'select_groups',
+            'is_trial', 'custom_rules', 'user_agreement_url', 'select_groups', 'select_groups_desc',
             'web_camera_main_view', 'web_camera_main_view_front', 'web_camera_main_view_side',
             'auxiliary_camera', 'visible_warnings', 'scoring_params_header',
             'allowmultipledisplays', 'allowvirtualenvironment', 'checkidphotoquality',

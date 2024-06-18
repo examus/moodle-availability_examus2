@@ -10,11 +10,12 @@ M.availability_examus2.form = Y.Object(M.core_availability.plugin);
 
 M.availability_examus2.form.rules = null;
 
-M.availability_examus2.form.initInner = function(rules, warnings, scoring, defaults) {
+M.availability_examus2.form.initInner = function(rules, warnings, scoring, defaults, groups) {
     this.rules = rules;
     this.warnings = warnings;
     this.scoring = scoring;
     this.defaults = defaults;
+    this.groups = groups;
 };
 
 M.availability_examus2.form.instId = 0;
@@ -258,6 +259,31 @@ M.availability_examus2.form.getNode = function(json) {
         '<div class="rules" style="white-space:nowrap">' + ruleOptions + '</div>'
     );
 
+    if (this.groups) {
+        var groupOptions = '';
+        for (var i in this.groups) {
+            var name = this.groups[i].name;
+            var groups = (json.groups instanceof Array) ? json.groups : [];
+
+            id = parseInt(this.groups[i].id);
+            groups = groups.map(function(gid) { return parseInt(gid); });
+
+            var checked = groups.indexOf(id) > -1 ? 'checked' : '';
+
+            groupOptions += '<br>'
+                + '<label>'
+                + '<input value=' + id + ' type="checkbox" name=groups[] ' + checked + '>'
+                + '&nbsp;' + name
+                + '</label>';
+        }
+
+        html += formGroup(
+            null,
+            getString('select_groups'),
+            getString('select_groups_desc'),
+            '<div class="groups"' + groupOptions + '</div>'
+        );
+    }
 
     var warningOptions = '';
     for (var wkey in this.warnings) {
@@ -607,6 +633,15 @@ M.availability_examus2.form.fillValue = function(value, node) {
             value.scoring[key] = parseFloat(scoringValue);
         } else {
             value.scoring[key] = null;
+        }
+    });
+
+    value.groups = [];
+    rulesInputs = node.all('.groups input');
+    Y.each(rulesInputs, function(ruleInput) {
+        var id = ruleInput.get('value');
+        if (ruleInput.get('checked') === true) {
+            value.groups.push(id);
         }
     });
 };
