@@ -23,6 +23,9 @@
  */
 
 namespace availability_examus2;
+
+defined('MOODLE_INTERNAL') || die();
+
 use \stdClass;
 use availability_examus2\condition;
 
@@ -261,9 +264,7 @@ class common {
                     $start_override = null;
                     $end_override = null;
 
-                    $overrides_user = $DB->get_record_sql(
-                        "SELECT * FROM {quiz_overrides} WHERE quiz = $quiz->id AND userid = $USER->id"
-                    );
+                    $overrides_user = $DB->get_record('quiz_overrides', ['quiz' => $quiz->id, 'userid' => $USER->id]);
 
                     if(!$overrides_user) {
                         $members = [];
@@ -272,9 +273,13 @@ class common {
                         }
                         
                         if($members) {
-                            $overrides = $DB->get_record_sql(
-                                "SELECT * FROM {quiz_overrides} WHERE quiz = $quiz->id AND groupid IN (" . implode(', ', $members) . ")"
-                            );
+                            list($groupid_sql, $params) = $DB->get_in_or_equal($members, SQL_PARAMS_NAMED);
+                            $params['quiz'] = $quiz->id;
+                            $sql = "SELECT *
+                                      FROM {quiz_overrides}
+                                     WHERE quiz = :quiz
+                                           AND groupid {$groupid_sql}";
+                            $overrides = $DB->get_record_sql($sql, $params);
                             if($overrides) {
                                 $start_override = $overrides->timeopen;
                                 $end_override = $overrides->timeclose;

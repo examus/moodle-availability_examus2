@@ -24,6 +24,8 @@
 
 namespace availability_examus2;
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Utils class
  */
@@ -36,7 +38,7 @@ class utils {
      * @param \stdClass $attempt Attempt
      */
     public static function handle_proctoring_fader($attempt) {
-        global $DB, $USER, $PAGE, $SESSION;
+        global $DB, $OUTPUT, $PAGE, $SESSION, $USER;
 
         $cmid = state::$attempt['cm_id'];
         $courseid = state::$attempt['course_id'];
@@ -99,10 +101,14 @@ class utils {
             $entryreset = isset($SESSION->availability_examus2_reset) && $SESSION->availability_examus2_reset;
 
             // Our entry is active, we are showing user a fader.
-            ob_start();
-            include(dirname(__FILE__).'/../templates/proctoring_fader.php');
-            $output = ob_get_clean();
-            return $output;
+            $data = [
+                'formdata' => json_encode(isset($formdata) ? $formdata : null),
+                'reset' => $entryreset ? 'true' : 'false',
+                'strAwaitingExamusing' => json_encode(get_string('fader_awaiting_proctoring', 'availability_examus2')),
+                'strInstructions' => json_encode(get_string('fader_instructions', 'availability_examus2')),
+                'strReset' => json_encode(get_string('fader_reset', 'availability_examus2')),
+            ];
+            return $OUTPUT->render_from_template('availability_examus2/proctoring_fader', $data);
         }
     }
 
@@ -114,7 +120,7 @@ class utils {
      * @param \stdClass $user user
      */
     public static function handle_start_attempt($course, $cm, $user) {
-        global $SESSION, $DB;
+        global $DB, $OUTPUT, $SESSION;
         $modinfo = get_fast_modinfo($course->id);
         $cminfo = $modinfo->get_cm($cm->id);
 
@@ -202,9 +208,12 @@ class utils {
 
         $formdata = $client->get_form('start', $data);
 
-        $pagetitle = "Redirecting to Examus";
-
-        include(dirname(__FILE__).'/../templates/redirect.php');
+        $data = [
+            'action' => $formdata['action'],
+            'method' => $formdata['method'],
+            'token' => isset($formdata['token']) ? $formdata['token'] : null
+        ];
+        echo $OUTPUT->render_from_template('availability_examus2/redirect', $data);
         die();
     }
 

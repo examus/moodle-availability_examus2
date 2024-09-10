@@ -24,6 +24,8 @@
 
 namespace availability_examus2;
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Frontend class
  */

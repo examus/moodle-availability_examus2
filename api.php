@@ -34,7 +34,8 @@ use availability_examus2\common;
 
 require_once('../../../config.php');
 
-global $DB;
+$PAGE->set_context(context_system::instance());
+$PAGE->set_url(new moodle_url('/availability/condition/examus2/api.php'));
 
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $auth = $_SERVER['HTTP_AUTHORIZATION'];

@@ -37,15 +37,10 @@ $string['error_not_in_range'] = 'Значение должно быть в ди�
 $string['error_setduration'] = 'Длительность в минутах должна быть кратна 30 (30, 60, 90)';
 
 $string['settings_examus_url'] = 'Examus URL';
-$string['settings_examus_url_desc'] = '';
 $string['settings_integration_name'] = 'Integration Name';
-$string['settings_integration_name_desc'] = '';
 $string['settings_jwt_secret'] = 'JWT Secret';
-$string['settings_jwt_secret_desc'] = '';
 $string['settings_account_name'] = 'Account Name';
-$string['settings_account_name_desc'] = '';
 $string['settings_user_emails'] = 'Отправлять email пользователей в Examus';
-$string['settings_user_emails_desc'] = '';
 $string['settings_seamless_auth'] = 'Автоматическая авторизация пользователя';
 $string['settings_seamless_auth_desc'] = 'Активация данной опции означает что прокторинг будет хранить авторизационный токен';
 

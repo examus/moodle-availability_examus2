@@ -37,15 +37,10 @@ $string['error_not_in_range'] = 'This value should be between %d and %d';
 $string['error_setduration'] = 'Duration must be a multiple of 30';
 
 $string['settings_examus_url'] = 'Examus URL';
-$string['settings_examus_url_desc'] = '';
 $string['settings_integration_name'] = 'Integration Name';
-$string['settings_integration_name_desc'] = '';
 $string['settings_jwt_secret'] = 'JWT Secret';
-$string['settings_jwt_secret_desc'] = '';
 $string['settings_account_name'] = 'Account Name';
-$string['settings_account_name_desc'] = '';
 $string['settings_user_emails'] = 'Send user emails to Examus';
-$string['settings_user_emails_desc'] = '';
 $string['settings_seamless_auth'] = 'Seemless authorization';
 $string['settings_seamless_auth_desc'] = 'Examusing will store authorization token for users';
 

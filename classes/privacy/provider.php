@@ -24,6 +24,8 @@
 
 namespace availability_examus2\privacy;
 
+defined('MOODLE_INTERNAL') || die();
+
 use \core_privacy\local\metadata\collection;
 use \core_privacy\local\request\userlist;
 use \core_privacy\local\request\contextlist;
@@ -119,16 +121,12 @@ class provider implements
         list($contextsql, $contextparams) = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
         $params = $contextparams;
 
-        $sql = "SELECT
-                    pe.*
-                  FROM {context} c
-                  JOIN {course_modules} cm ON cm.id = c.instanceid
-                  JOIN {availability_examus2_entries} pe ON pe.cmid = cm.id
-                 WHERE (
-                    pe.userid = :userid AND
-                    c.id {$contextsql}
-                )
-        ";
+        $sql = "SELECT pe.*
+                  FROM {context} AS c
+                  JOIN {course_modules} AS cm ON cm.id = c.instanceid
+                  JOIN {availability_examus2_entries} AS pe ON pe.cmid = cm.id
+                 WHERE pe.userid = :userid
+                       AND c.id {$contextsql}";
 
         $params['userid'] = $userid;
         $data = $DB->get_records_sql($sql, $params);
