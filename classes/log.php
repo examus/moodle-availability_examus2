@@ -92,25 +92,6 @@ class log {
      */
     protected function fetch_data() {
         global $DB;
-        $select = [
-            'e.id id',
-            'e.timemodified timemodified',
-            'a.timefinish timefinish',
-            'timescheduled',
-            'u.firstname u_firstname',
-            'u.lastname u_lastname',
-            'u.email u_email',
-            'u.username u_username',
-            'u.id userid',
-            'e.status status',
-            'review_link',
-            'archiveurl',
-            'cmid',
-            'courseid',
-            'score',
-            'comment',
-            'threshold',
-        ];
 
         $where = [];
         $params = $this->filters;
@@ -140,48 +121,73 @@ class log {
             $value = trim($value);
             switch ($key) {
                 case 'from':
-                    $where[] = 'e.timemodified > :'.$key;
+                    $where[] = "e.timemodified > :{$key}";
                     break;
 
                 case 'to':
-                    $where[] = 'e.timemodified <= :'.$key;
+                    $where[] = "e.timemodified <= :{$key}";
                     break;
 
                 case 'userquery':
                     $params[$key.'1'] = $value.'%';
                     $params[$key.'2'] = $value.'%';
 
-                    $where[] = '(u.email LIKE :'.$key.'1 OR u.username LIKE :'.$key.'2)';
+                    $email_like = $DB->sql_like("u.email", $key.'1');
+                    $username_like = $DB->sql_like("u.username", $key.'2');
+                    $where[] = "({$email_like} OR {$username_like})";
                     break;
 
                 default:
-                    $where[] = $key.' = :'.$key;
+                    $where[] = "{$key} = :{$key}";
             }
         }
 
         $courseids = array_keys($this->get_course_list());
         if (!empty($courseids)) {
-            $where[] = 'courseid IN('.implode(',', $courseids).')';
+            list($courseids_sql, $courseids_params) = $DB->get_in_or_equal($courseids, SQL_PARAMS_NAMED);
+            $params = array_merge($params, $courseids_params);
+            $where[] = "courseid {$courseids_sql}";
         } else {
             // Always false condition. Can't use FALSE because of mssql.
-            $where[] = '1=0';
+            $where[] = "1 = 0";
         }
 
+        $where_sql = implode(" AND ", $where);
+
         $orderby = $this->table->get_sql_sort();
+        $order_sql = $orderby ? $orderby : "id";
 
         $limitfrom = ($this->page * $this->perpage);
         $limitnum  = $this->perpage;
 
-        $query = 'SELECT '.implode(', ', $select).' FROM {availability_examus2_entries} e '
-               . ' LEFT JOIN {user} u ON u.id=e.userid '
-               . ' LEFT JOIN {quiz_attempts} a ON a.id=e.attemptid '
-               . (count($where) ? ' WHERE '.implode(' AND ', $where) : '')
-               . ' ORDER BY ' . ($orderby ? $orderby : 'id');
+        $query = "SELECT e.id AS id,
+                         e.timemodified AS timemodified,
+                         a.timefinish AS timefinish,
+                         timescheduled,
+                         u.firstname AS u_firstname,
+                         u.lastname AS u_lastname,
+                         u.email AS u_email,
+                         u.username AS u_username,
+                         u.id AS userid,
+                         e.status AS status,
+                         review_link,
+                         archiveurl,
+                         cmid,
+                         courseid,
+                         score,
+                         comment,
+                         threshold
+                    FROM {availability_examus2_entries} AS e
+               LEFT JOIN {user} AS u ON u.id = e.userid
+               LEFT JOIN {quiz_attempts} AS a ON a.id = e.attemptid
+                   WHERE {$where_sql}
+                ORDER BY {$order_sql}";
 
-        $querycount = 'SELECT count(e.id) as count FROM {availability_examus2_entries} e '
-                    . ' LEFT JOIN {user} u ON u.id=e.userid '
-                    . ' LEFT JOIN {quiz_attempts} a ON a.id=e.attemptid '
-                    . (count($where) ? ' WHERE '.implode(' AND ', $where) : '');
+        $querycount = "SELECT COUNT(e.id) AS count
+                         FROM {availability_examus2_entries} AS e
+                    LEFT JOIN {user} AS u ON u.id = e.userid
+                    LEFT JOIN {quiz_attempts} AS a ON a.id = e.attemptid
+                        WHERE {$where_sql}";
 
         $this->entries = $DB->get_records_sql($query, $params, $limitfrom, $limitnum);
 

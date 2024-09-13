@@ -27,6 +27,9 @@
  * @param string $oldversion Oldversion
  * @return bool
  */
+
+defined('MOODLE_INTERNAL') || die();
+
 function xmldb_availability_examus2_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();

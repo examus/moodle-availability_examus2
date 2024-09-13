@@ -54,27 +54,27 @@ if ($hassiteconfig) {
     if ($ADMIN->fulltree) {
         $pluginsettings->add(new admin_setting_configtext('availability_examus2/examus_url',
             new lang_string('settings_examus_url', 'availability_examus2'),
-            new lang_string('settings_examus_url_desc', 'availability_examus2'), '', PARAM_HOST));
+            '', '', PARAM_HOST));
 
         $pluginsettings->add(new admin_setting_configtext('availability_examus2/integration_name',
             new lang_string('settings_integration_name', 'availability_examus2'),
-            new lang_string('settings_integration_name_desc', 'availability_examus2'), '', PARAM_TEXT));
+            '', '', PARAM_TEXT));
 
         $pluginsettings->add(new admin_setting_configtext('availability_examus2/jwt_secret',
             new lang_string('settings_jwt_secret', 'availability_examus2'),
-            new lang_string('settings_jwt_secret_desc', 'availability_examus2'), '', PARAM_TEXT));
+            '', '', PARAM_TEXT));
             
         $pluginsettings->add(new admin_setting_configtext('availability_examus2/account_name',
             new lang_string('settings_account_name', 'availability_examus2'),
-            new lang_string('settings_account_name_desc', 'availability_examus2'), '', PARAM_TEXT));
+            '', '', PARAM_TEXT));
 
         $pluginsettings->add(new admin_setting_configcheckbox('availability_examus2/user_emails',
             new lang_string('settings_user_emails', 'availability_examus2'),
-            new lang_string('settings_user_emails_desc', 'availability_examus2'), 1));
+            '', 1));
 
         $pluginsettings->add(new admin_setting_configcheckbox('availability_examus2/seamless_auth',
             new lang_string('settings_seamless_auth', 'availability_examus2'),
-            new lang_string('settings_seamless_auth_desc', 'availability_examus2'), 1));
+            '', 1));
 
     }
 }

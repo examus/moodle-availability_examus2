@@ -16,6 +16,8 @@
 
 namespace availability_examus2;
 
+defined('MOODLE_INTERNAL') || die();
+
 use availability_examus2\state;
 use availability_examus2\utils;
 
