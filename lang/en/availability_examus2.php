@@ -159,8 +159,8 @@ $string['comment'] = 'Comment';
 $string['details'] = 'Details';
 
 // Fader screen.
-$string['fader_awaiting_proctoring'] = 'Examus proctoring starts...';
-$string['fader_instructions'] = '<p>please wait</p>';
+$string['fader_awaiting_proctoring'] = 'Checking that proctoring is running...';
+$string['fader_instructions'] = '<p>It won\'t take long</p>';
 $string['fader_reset'] = 'Session was reset, you need to restart the exam';
 
 // Dafault settings
