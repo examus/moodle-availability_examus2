@@ -83,8 +83,13 @@ $string['select_groups_desc'] = 'Proctoring will be started for each selected gr
 
 $string['is_trial'] = 'Trial exam';
 $string['auxiliary_camera'] = 'Auxiliary camera (mobile) ';
+$string['auxiliary_camera_mode'] = 'Auxiliary camera mode';
+$string['auxiliary_camera_mode_photo'] = 'Photo';
+$string['auxiliary_camera_mode_video'] = 'Video';
 $string['enable_ldb'] = 'Require locked down browser';
 $string['allowmultipledisplays'] = 'Allow to use multiple displays';
+$string['facehuntingenabled'] = 'Allow to use face hunting';
+$string['allowmobiledevices'] = 'Allow mobile devices';
 $string['allowvirtualenvironment'] = 'Allow to use virtual machines';
 $string['checkidphotoquality'] = 'Check the quality of ID photo';
 

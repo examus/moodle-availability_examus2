@@ -33,7 +33,10 @@ M.availability_examus2.form.getNode = function(json) {
     var identificationId = id + '_identification';
     var customRulesId = id + '_customRules';
     var auxiliaryCameraId = id + '_auxCamera';
+    var auxiliaryCameraModeId = id + '_auxiliaryCameraMode';
     var allowmultipledisplaysId = id + '_allowmultipledisplays';
+    var faceHuntingEnabledId = id + '_faceHuntingEnabled';
+    var allowMobileDevicesId = id + '_allowMobileDevices';
     var allowvirtualenvironmentId = id + '_allowvirtualenvironment';
     var checkidphotoqualityId = id + '_checkidphotoquality';
     var enableLdbId = id + '_ldb';
@@ -193,6 +196,13 @@ M.availability_examus2.form.getNode = function(json) {
         '<label for="' + auxiliaryCameraId + '">' + getString('enable') + '</label> '
     );
 
+    html += formGroup(auxiliaryCameraModeId, getString('auxiliary_camera_mode'), '',
+        '<select name="auxiliarycameramode" id="' + auxiliaryCameraModeId + '" class="custom-select">' +
+        '  <option value="video">' + getString('auxiliary_camera_mode_video') + '</option>' +
+        '  <option value="photo">' + getString('auxiliary_camera_mode_photo') + '</option>' +
+        '</select>'
+    );
+
     html += formGroup(enableLdbId, getString('enable_ldb'), getString('enable_ldb_desc'),
         '<input type="checkbox" name="ldb" id="' + enableLdbId + '" value="1">&nbsp;' +
         '<label for="' + enableLdbId + '">' + getString('enable') + '</label> '
@@ -201,6 +211,16 @@ M.availability_examus2.form.getNode = function(json) {
     html += formGroup(allowmultipledisplaysId, getString('allowmultipledisplays'), '',
         '<input type="checkbox" name="allowmultipledisplays" id="' + allowmultipledisplaysId + '" value="1">&nbsp;' +
         '<label for="' + allowmultipledisplaysId + '">' + getString('enable') + '</label> '
+    );
+
+    html += formGroup(faceHuntingEnabledId, getString('facehuntingenabled'), '',
+        '<input type="checkbox" name="facehuntingenabled" id="' + faceHuntingEnabledId + '" value="1">&nbsp;' +
+        '<label for="' + faceHuntingEnabledId + '">' + getString('enable') + '</label> '
+    );
+
+    html += formGroup(allowMobileDevicesId, getString('allowmobiledevices'), '',
+        '<input type="checkbox" name="allowmobiledevices" id="' + allowMobileDevicesId + '" value="1">&nbsp;' +
+        '<label for="' + allowMobileDevicesId + '">' + getString('enable') + '</label> '
     );
 
     html += formGroup(allowvirtualenvironmentId, getString('allowvirtualenvironment'), '',
@@ -418,6 +438,10 @@ M.availability_examus2.form.getNode = function(json) {
         node.one('#' + auxiliaryCameraId).set('checked', json.auxiliarycamera ? 'checked' : null);
     }
 
+    if (json.auxiliarycameramode) {
+        node.one('select[name=auxiliarycameramode] option[value=' + json.auxiliarycameramode + ']').set('selected', 'selected');
+    }
+
     if (json.ldb !== undefined) {
         node.one('#' + enableLdbId).set('checked', json.ldb ? 'checked' : null);
     }
@@ -428,6 +452,14 @@ M.availability_examus2.form.getNode = function(json) {
 
     if (json.allowmultipledisplays !== undefined) {
         node.one('#' + allowmultipledisplaysId).set('checked', json.allowmultipledisplays ? 'checked' : null);
+    }
+
+    if (json.facehuntingenabled !== undefined) {
+        node.one('#' + faceHuntingEnabledId).set('checked', json.facehuntingenabled ? 'checked' : null);
+    }
+
+    if (json.allowmobiledevices !== undefined) {
+        node.one('#' + allowMobileDevicesId).set('checked', json.allowmobiledevices ? 'checked' : null);
     }
 
     if (json.allowvirtualenvironment !== undefined) {
@@ -560,6 +592,7 @@ M.availability_examus2.form.fillValue = function(value, node) {
     value.duration = node.one('input[name=duration]').get('value').trim();
     value.mode = node.one('select[name=mode]').get('value').trim();
     value.identification = node.one('select[name=identification]').get('value').trim();
+    value.auxiliarycameramode = node.one('select[name=auxiliarycameramode]').get('value').trim();
     value.webcameramainview = node.one('select[name=webcameramainview]').get('value').trim();
     value.auto_rescheduling = node.one('input[name=auto_rescheduling]').get('checked');
     value.scheduling_required = node.one('input[name=scheduling_required]').get('checked');
@@ -579,6 +612,8 @@ M.availability_examus2.form.fillValue = function(value, node) {
     value.auxiliarycamera = node.one('input[name=auxiliarycamera]').get('checked');
     value.ldb = node.one('input[name=ldb]').get('checked');
     value.allowmultipledisplays = node.one('input[name=allowmultipledisplays]').get('checked');
+    value.facehuntingenabled = node.one('input[name=facehuntingenabled]').get('checked');
+    value.allowmobiledevices = node.one('input[name=allowmobiledevices]').get('checked');
     value.allowvirtualenvironment = node.one('input[name=allowvirtualenvironment]').get('checked');
     value.checkidphotoquality = node.one('input[name=checkidphotoquality]').get('checked');
 

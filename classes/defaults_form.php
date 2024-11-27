@@ -82,12 +82,24 @@ class defaults_form extends \moodleform {
 
         $mform->addElement('advcheckbox', 'auxiliarycamera', get_string('auxiliary_camera',  'availability_examus2'));
         $mform->setType('auxiliarycamera', PARAM_BOOL);
+        
+        $mform->addElement('select', 'auxiliarycameramode', get_string('auxiliary_camera_mode', 'availability_examus2'), [
+            '' => '',
+            'video' => get_string('auxiliary_camera_mode_video', 'availability_examus2'),
+            'photo' => get_string('auxiliary_camera_mode_photo', 'availability_examus2'),
+        ]);
 
         $mform->addElement('advcheckbox', 'ldb', get_string('enable_ldb',  'availability_examus2'));
         $mform->setType('ldb', PARAM_BOOL);
 
         $mform->addElement('advcheckbox', 'allowmultipledisplays', get_string('allowmultipledisplays',  'availability_examus2'));
         $mform->setType('allowmultipledisplays', PARAM_BOOL);
+        
+        $mform->addElement('advcheckbox', 'facehuntingenabled', get_string('facehuntingenabled',  'availability_examus2'));
+        $mform->setType('facehuntingenabled', PARAM_BOOL);
+        
+        $mform->addElement('advcheckbox', 'allowmobiledevices', get_string('allowmobiledevices',  'availability_examus2'));
+        $mform->setType('allowmobiledevices', PARAM_BOOL);
 
         $mform->addElement('advcheckbox', 'allowvirtualenvironment', get_string('allowvirtualenvironment',  'availability_examus2'));
         $mform->setType('allowvirtualenvironment', PARAM_BOOL);

@@ -83,8 +83,13 @@ $string['select_groups_desc'] = 'Для каждой выбранной груп
 
 $string['is_trial'] = 'Пробный экзамен';
 $string['auxiliary_camera'] = 'Дополнительная камера (смартфон)';
+$string['auxiliary_camera_mode'] = 'Режим работы дополнительной камеры';
+$string['auxiliary_camera_mode_photo'] = 'Фотографирование';
+$string['auxiliary_camera_mode_video'] = 'Видеозапись';
 $string['enable_ldb'] = 'Использовать защищенный браузер';
 $string['allowmultipledisplays'] = 'Разрешить использование второго монитора';
+$string['facehuntingenabled'] = 'Разрешить детекцию вовлеченности тестируемого';
+$string['allowmobiledevices'] = 'Разрешить прохождение с мобильного приложения "Экзамус"';
 $string['allowvirtualenvironment'] = 'Разрешить использовать виртуальные машины';
 $string['checkidphotoquality'] = 'Проверять качество фото';
 
