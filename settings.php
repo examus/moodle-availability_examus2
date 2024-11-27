@@ -71,10 +71,5 @@ if ($hassiteconfig) {
         $pluginsettings->add(new admin_setting_configcheckbox('availability_examus2/user_emails',
             new lang_string('settings_user_emails', 'availability_examus2'),
             '', 1));
-
-        $pluginsettings->add(new admin_setting_configcheckbox('availability_examus2/seamless_auth',
-            new lang_string('settings_seamless_auth', 'availability_examus2'),
-            '', 1));
-
     }
 }

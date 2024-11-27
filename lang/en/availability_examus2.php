@@ -41,8 +41,6 @@ $string['settings_integration_name'] = 'Integration Name';
 $string['settings_jwt_secret'] = 'JWT Secret';
 $string['settings_account_name'] = 'Account Name';
 $string['settings_user_emails'] = 'Send user emails to Examus';
-$string['settings_seamless_auth'] = 'Seemless authorization';
-$string['settings_seamless_auth_desc'] = 'Examusing will store authorization token for users';
 
 $string['description_examus2'] = 'You will be redirected to Examus';
 $string['description_no_webservices'] = 'Can not be accessed via Moodle mobile app';

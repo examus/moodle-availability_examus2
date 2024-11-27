@@ -41,8 +41,6 @@ $string['settings_integration_name'] = 'Integration Name';
 $string['settings_jwt_secret'] = 'JWT Secret';
 $string['settings_account_name'] = 'Account Name';
 $string['settings_user_emails'] = 'Отправлять email пользователей в Examus';
-$string['settings_seamless_auth'] = 'Автоматическая авторизация пользователя';
-$string['settings_seamless_auth_desc'] = 'Активация данной опции означает что прокторинг будет хранить авторизационный токен';
 
 $string['description_examus2'] = 'Вы будете перенаправлены на Examus';
 $string['description_no_webservices'] = 'Недоступно через мобильное приложение Moodle';
