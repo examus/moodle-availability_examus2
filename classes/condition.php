@@ -40,13 +40,34 @@ use availability_examus2\state;
 class condition extends \core_availability\condition {
     /** @var array List of (de-)serializable properties */
     const PROPS = [
-        'duration', 'mode', 'schedulingrequired', 'autorescheduling',
-        'istrial', 'identification', 'useragreementurl',
-        'auxiliarycamera', 'ldb', 'allowmultipledisplays', 'allowvirtualenvironment',
-        'checkidphotoquality', 'webcameramainview',
-        'scoring', 'warnings', 'rules', 'customrules', 'groups',
-        'biometryenabled', 'biometryskipfail', 'biometryflow', 'biometrytheme',
-        'desktopAppForbiddenProcesses','desktopAppAllowedProcesses','enabledForbiddenProcesses',
+        'duration',
+        'mode',
+        'schedulingrequired',
+        'autorescheduling',
+        'istrial',
+        'identification',
+        'useragreementurl',
+        'auxiliarycamera',
+        'auxiliarycameramode',
+        'ldb',
+        'allowmultipledisplays',
+        'facehuntingenabled',
+        'allowmobiledevices',
+        'allowvirtualenvironment',
+        'checkidphotoquality',
+        'webcameramainview',
+        'scoring',
+        'warnings',
+        'rules',
+        'customrules',
+        'groups',
+        'biometryenabled',
+        'biometryskipfail',
+        'biometryflow',
+        'biometrytheme',
+        'desktopAppForbiddenProcesses',
+        'desktopAppAllowedProcesses',
+        'enabledForbiddenProcesses',
         'enabledAllowedProcesses'
     ];
 
@@ -96,6 +117,8 @@ class condition extends \core_availability\condition {
         'ldb' => false,
         'auxiliarycamera' => false,
         'allowmultipledisplays' => false,
+        'facehuntingenabled' => false,
+        'allowmobiledevices' => false,
         'allowvirtualenvironment' => false,
         'checkidphotoquality' => false,
         'biometryenabled' => false,
@@ -137,6 +160,9 @@ class condition extends \core_availability\condition {
 
     /** @var bool Auxiliary camera enabled */
     public $auxiliarycamera = false;
+    
+    /** @var string Auxiliary camera mode */
+    public $auxiliarycameramode = 'video';
 
     /** @var string All app forbidden processes */
     public $desktopAppForbiddenProcesses = null;
@@ -146,6 +172,12 @@ class condition extends \core_availability\condition {
 
     /** @var bool Allow to use multiple displays */
     public $allowmultipledisplays = false;
+    
+    /** @var bool Allow to use face hunting */
+    public $facehuntingenabled = false;
+    
+    /** @var bool Allow to use mobile devices */
+    public $allowmobiledevices = false;
 
     /** @var bool Allow to use virtual machines */
     public $allowvirtualenvironment = false;
@@ -191,6 +223,10 @@ class condition extends \core_availability\condition {
 
         if (!empty($structure->mode)) {
             $this->mode = $structure->mode;
+        }
+        
+        if (!empty($structure->auxiliarycameramode)) {
+            $this->auxiliarycameramode = $structure->auxiliarycameramode;
         }
 
         if (!empty($structure->webcameramainview)) {

@@ -27,9 +27,7 @@ require_once('../../../config.php');
 $token = optional_param('token', null, PARAM_ALPHANUM);
 $accesscode = required_param('examus2_accesscode', PARAM_RAW);
 
-$seamlessauth = get_config('availability_examus2', 'seamless_auth');
-
-if ($seamlessauth && $token) {
+if ($token) {
     $script = 'availability_examus2';
     $key = validate_user_key($token, $script, null);
 

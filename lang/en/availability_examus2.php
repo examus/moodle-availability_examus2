@@ -41,8 +41,6 @@ $string['settings_integration_name'] = 'Integration Name';
 $string['settings_jwt_secret'] = 'JWT Secret';
 $string['settings_account_name'] = 'Account Name';
 $string['settings_user_emails'] = 'Send user emails to Examus';
-$string['settings_seamless_auth'] = 'Seemless authorization';
-$string['settings_seamless_auth_desc'] = 'Examusing will store authorization token for users';
 
 $string['description_examus2'] = 'You will be redirected to Examus';
 $string['description_no_webservices'] = 'Can not be accessed via Moodle mobile app';
@@ -85,8 +83,13 @@ $string['select_groups_desc'] = 'Proctoring will be started for each selected gr
 
 $string['is_trial'] = 'Trial exam';
 $string['auxiliary_camera'] = 'Auxiliary camera (mobile) ';
+$string['auxiliary_camera_mode'] = 'Auxiliary camera mode';
+$string['auxiliary_camera_mode_photo'] = 'Photo';
+$string['auxiliary_camera_mode_video'] = 'Video';
 $string['enable_ldb'] = 'Require locked down browser';
 $string['allowmultipledisplays'] = 'Allow to use multiple displays';
+$string['facehuntingenabled'] = 'Allow to use face hunting';
+$string['allowmobiledevices'] = 'Allow mobile devices';
 $string['allowvirtualenvironment'] = 'Allow to use virtual machines';
 $string['checkidphotoquality'] = 'Check the quality of ID photo';
 
@@ -159,8 +162,8 @@ $string['comment'] = 'Comment';
 $string['details'] = 'Details';
 
 // Fader screen.
-$string['fader_awaiting_proctoring'] = 'Examus proctoring starts...';
-$string['fader_instructions'] = '<p>please wait</p>';
+$string['fader_awaiting_proctoring'] = 'Checking that proctoring is running...';
+$string['fader_instructions'] = '<p>It won\'t take long</p>';
 $string['fader_reset'] = 'Session was reset, you need to restart the exam';
 
 // Dafault settings

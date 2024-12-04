@@ -41,8 +41,6 @@ $string['settings_integration_name'] = 'Integration Name';
 $string['settings_jwt_secret'] = 'JWT Secret';
 $string['settings_account_name'] = 'Account Name';
 $string['settings_user_emails'] = 'Отправлять email пользователей в Examus';
-$string['settings_seamless_auth'] = 'Автоматическая авторизация пользователя';
-$string['settings_seamless_auth_desc'] = 'Активация данной опции означает что прокторинг будет хранить авторизационный токен';
 
 $string['description_examus2'] = 'Вы будете перенаправлены на Examus';
 $string['description_no_webservices'] = 'Недоступно через мобильное приложение Moodle';
@@ -85,8 +83,13 @@ $string['select_groups_desc'] = 'Для каждой выбранной груп
 
 $string['is_trial'] = 'Пробный экзамен';
 $string['auxiliary_camera'] = 'Дополнительная камера (смартфон)';
+$string['auxiliary_camera_mode'] = 'Режим работы дополнительной камеры';
+$string['auxiliary_camera_mode_photo'] = 'Фотографирование';
+$string['auxiliary_camera_mode_video'] = 'Видеозапись';
 $string['enable_ldb'] = 'Использовать защищенный браузер';
 $string['allowmultipledisplays'] = 'Разрешить использование второго монитора';
+$string['facehuntingenabled'] = 'Разрешить детекцию вовлеченности тестируемого';
+$string['allowmobiledevices'] = 'Разрешить прохождение с мобильного приложения "Экзамус"';
 $string['allowvirtualenvironment'] = 'Разрешить использовать виртуальные машины';
 $string['checkidphotoquality'] = 'Проверять качество фото';
 
@@ -159,8 +162,8 @@ $string['comment'] = 'Комментарий';
 $string['details'] = 'Подробности';
 
 // Fader screen.
-$string['fader_awaiting_proctoring'] = 'Запуск прокторинга…';
-$string['fader_instructions'] = '<p>Пожалуйста, ожидайте</p>';
+$string['fader_awaiting_proctoring'] = 'Проверяем, что прокторинг запущен...';
+$string['fader_instructions'] = '<p>Это не займёт много времени</p>';
 $string['fader_reset'] = 'Перезагрузите страницу, чтобы продолжить тестирование';
 
 // Dafault settings
