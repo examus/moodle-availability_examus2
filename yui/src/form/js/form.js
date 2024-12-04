@@ -638,13 +638,17 @@ M.availability_examus2.form.fillValue = function(value, node) {
             if (e.target.checked) {
                 document.querySelector('textarea[name=desktopAppForbiddenProcesses]').disabled = false;
             }
-            document.querySelector('textarea[name=desktopAppForbiddenProcesses]').disabled = 'disabled';
+            else {
+                document.querySelector('textarea[name=desktopAppForbiddenProcesses]').disabled = 'disabled';
+            }
         }
         if (e.target.name == 'enabledAllowedProcesses') {
             if (e.target.checked) {
                 document.querySelector('textarea[name=desktopAppAllowedProcesses]').disabled = false;
             }
-            document.querySelector('textarea[name=desktopAppAllowedProcesses]').disabled = 'disabled';
+            else {
+                document.querySelector('textarea[name=desktopAppAllowedProcesses]').disabled = 'disabled';
+            }
         }
     });
 
