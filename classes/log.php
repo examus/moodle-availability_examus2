@@ -210,7 +210,7 @@ class log {
         ]);
 
         $table->define_headers([
-            "<input class='js-all-checkbox' type='checkbox' name='id' value='" . $entry->id . "'>",
+            "<input class='js-all-checkbox' type='checkbox' name='id'>",
             get_string('time_finish', 'availability_examus2'),
             get_string('time_scheduled', 'availability_examus2'),
             get_string('user'),
