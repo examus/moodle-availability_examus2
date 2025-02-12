@@ -66,14 +66,6 @@ if ($to['day'] > 0 && $to['month'] > 0 && $to['year'] > 0) {
     ]);
 }
 
-$url_param = [];
-                
-foreach($filters as $key_filter => $filter) {
-    $url_param[] =  $key_filter . '=' . $filter;
-}
-
-$url_param_link = implode('&', $url_param);
-
 if ($action == 'renew') {
     
     $id = optional_param('id', false, PARAM_TEXT);
@@ -94,11 +86,13 @@ if ($action == 'renew') {
         }
     }
     
+    $url_param_link = new moodle_url('/availability/condition/examus2/index.php', $filters);
+
     if ($error_exist_ids) {
-        return redirect('index.php?' . $url_param_link, get_string('entry_exist', 'availability_examus2') . '<br> ID: ' . implode(', ', $error_exist_ids), null, \core\output\notification::NOTIFY_ERROR);
+        return redirect($url_param_link, get_string('entry_exist', 'availability_examus2') . '<br> ID: ' . implode(', ', $error_exist_ids), null, \core\output\notification::NOTIFY_ERROR);
     }
     
-    return redirect('index.php?' . $url_param_link, get_string('new_entry_created', 'availability_examus2') . '<br> ID: ' . implode(', ', $success_exist_ids), null, \core\output\notification::NOTIFY_SUCCESS);
+    return redirect($url_param_link, get_string('new_entry_created', 'availability_examus2') . '<br> ID: ' . implode(', ', $success_exist_ids), null, \core\output\notification::NOTIFY_SUCCESS);
 }
 
 if ($action == 'index') {

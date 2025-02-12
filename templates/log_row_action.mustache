@@ -1,0 +1,37 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template availability_examus2/log_row_action
+
+    Log table action row
+
+    Example context (json):
+    {
+        "force": "true",
+        "id": "123",
+        "url": "https://moodle.org"
+    }
+}}
+
+<form action="{{{url}}}" method="post">
+    <input type="hidden" name="id" value="{{id}}">
+    {{#force}}
+    <input type="hidden" name="force" value="true">
+    {{/force}}
+    <input type="hidden" name="action" value="renew">
+    <input type="submit" value="{{#force}}{{#str}}new_entry_force, availability_examus2{{/str}}{{/force}}{{^force}}{{#str}}new_entry, availability_examus2{{/str}}{{/force}}">
+</form>
