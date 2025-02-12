@@ -35,9 +35,11 @@ use availability_examus2\condition;
  * @param stdClass $event Event
  */
 function avalibility_examus2_attempt_started_handler($event) {
-    global $DB, $SESSION, $PAGE, $USER;
+    global $DB, $PAGE, $USER;
 
-    $accesscode = isset($SESSION->availability_examus2_accesscode) ? $SESSION->availability_examus2_accesscode : null;
+    $cache = cache::make_from_params(cache_store::MODE_SESSION, 'availability_examus2', 'session');
+    
+    $accesscode = $cache->get('accesscode');
 
     $attempt = $event->get_record_snapshot('quiz_attempts', $event->objectid);
 
@@ -86,7 +88,7 @@ function avalibility_examus2_attempt_started_handler($event) {
                 // The user is coming from examus2, we can't redirect.
                 // We have to let user know that they need to restart manually.
                 $inhibitredirect = true;
-                $SESSION->availability_examus2_reset = true;
+                $cache->set('reset', true);
             } else {
                 // The user is not coming from examus2.
                 $inhibitredirect = false;
@@ -101,7 +103,7 @@ function avalibility_examus2_attempt_started_handler($event) {
 
         if ($accesscode) {
             $inhibitredirect = true;
-            $SESSION->availability_examus2_reset = true;
+            $cache->set('reset', true);
         } else {
             $inhibitredirect = false;
         }
@@ -118,19 +120,17 @@ function avalibility_examus2_attempt_started_handler($event) {
  * @param stdClass $event Event
  */
 function avalibility_examus2_attempt_submitted_handler($event) {
-    global $DB, $SESSION;
+    global $DB;
+
+    $cache = cache::make_from_params(cache_store::MODE_SESSION, 'availability_examus2', 'session');
+
     $cmid = $event->get_context()->instanceid;
     $attempt = $event->get_record_snapshot('quiz_attempts', $event->objectid);
     $userid = $event->userid;
-    
+
     $course = get_course($event->courseid);
     $modinfo = get_fast_modinfo($course->id, $userid);
     $cm = $modinfo->get_cm($cmid);
-
-    if (!empty($SESSION->availability_examus2_accesscode)) {
-        $accesscode = $SESSION->availability_examus2_accesscode;
-        unset($SESSION->availability_examus2_accesscode);
-    }
 
     $entries = $DB->get_records('availability_examus2_entries', [
         'userid' => $userid,
@@ -139,7 +139,9 @@ function avalibility_examus2_attempt_submitted_handler($event) {
         'status' => "started"
     ], '-id');
 
-    if (!empty($accesscode)) {
+    $accesscode = $cache->get('accesscode');
+    if ($accesscode) {
+        $cache->delete('accesscode');
         $entry = $DB->get_record('availability_examus2_entries', ['accesscode' => $accesscode]);
         if ($entry) {
             $entries[] = $entry;
