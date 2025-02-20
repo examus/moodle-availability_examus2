@@ -101,14 +101,10 @@ class utils {
             $entryreset = $cache->get('reset');
 
             // Our entry is active, we are showing user a fader.
-            $data = [
-                'formdata' => json_encode(isset($formdata) ? $formdata : null),
-                'reset' => $entryreset ? 'true' : 'false',
-                'strAwaitingExamusing' => json_encode(get_string('fader_awaiting_proctoring', 'availability_examus2')),
-                'strInstructions' => json_encode(get_string('fader_instructions', 'availability_examus2')),
-                'strReset' => json_encode(get_string('fader_reset', 'availability_examus2')),
-            ];
-            return $OUTPUT->render_from_template('availability_examus2/proctoring_fader', $data);
+            $PAGE->requires->js_call_amd('availability_examus2/fader', 'init', [
+                isset($formdata) ? $formdata : null,
+                $entryreset ? true : false
+            ]);
         }
     }
 

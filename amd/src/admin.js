@@ -16,12 +16,17 @@
 /**
  * Availability plugin for integration with Examus.
  *
- * @package    availability_examus2
+ * @module     availability_examus2/admin
  * @copyright  2019-2023 Maksim Burnin <maksim.burnin@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-export function init() {
+ /**
+ * Log table init
+ *
+ * @method init
+ */
+ export function init() {
     var jsNewEntryBtn = document.querySelector('.js-new-entry-all-btn');
     var tableCheckboxItem = [...document.querySelectorAll('.js-item-checkbox')];
     var tableCheckboxAll = document.querySelector('.js-all-checkbox');
@@ -84,6 +89,12 @@ export function init() {
         renewForm.submit();
     });
 
+    /**
+     * Check all columns
+     *
+     * @method checked
+     * @param {Boolean} state
+     */
     function checked(state) {
         for (var i = 0; i < tableCheckboxItem.length; i++) {
             tableCheckboxItem[i].checked = state;
