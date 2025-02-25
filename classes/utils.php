@@ -38,7 +38,9 @@ class utils {
      * @param \stdClass $attempt Attempt
      */
     public static function handle_proctoring_fader($attempt) {
-        global $DB, $OUTPUT, $PAGE, $SESSION, $USER;
+        global $DB, $OUTPUT, $PAGE, $USER;
+
+        $cache = \cache::make_from_params(\cache_store::MODE_SESSION, 'availability_examus2', 'session');
 
         $cmid = state::$attempt['cm_id'];
         $courseid = state::$attempt['course_id'];
@@ -65,12 +67,10 @@ class utils {
 
         $entry = common::create_entry($condition, $USER->id, $cm);
 
-        if (
-            !empty($SESSION->availability_examus2_accesscode) &&
-                $entry->accesscode != $SESSION->availability_examus2_accesscode
-        ) {
-            $SESSION->availability_examus2_accesscode = null;
-            $SESSION->availability_examus2_reset = true;
+        $accesscode = $cache->get('accesscode');
+        if ($accesscode && $entry->accesscode != $accesscode) {
+            $cache->delete('accesscode');
+            $cache->set('reset', true);
         }
 
         $timebracket = common::get_timebracket_for_cm('quiz', $cm);
@@ -98,17 +98,13 @@ class utils {
         if ($entryisactive || $attemptinprogess) {
             // We have to pass formdata in any case because exam can be opened outside iframe.
             $formdata = $client->get_form('start', $data);
-            $entryreset = isset($SESSION->availability_examus2_reset) && $SESSION->availability_examus2_reset;
+            $entryreset = $cache->get('reset');
 
             // Our entry is active, we are showing user a fader.
-            $data = [
-                'formdata' => json_encode(isset($formdata) ? $formdata : null),
-                'reset' => $entryreset ? 'true' : 'false',
-                'strAwaitingExamusing' => json_encode(get_string('fader_awaiting_proctoring', 'availability_examus2')),
-                'strInstructions' => json_encode(get_string('fader_instructions', 'availability_examus2')),
-                'strReset' => json_encode(get_string('fader_reset', 'availability_examus2')),
-            ];
-            return $OUTPUT->render_from_template('availability_examus2/proctoring_fader', $data);
+            $PAGE->requires->js_call_amd('availability_examus2/fader', 'init', [
+                isset($formdata) ? $formdata : null,
+                $entryreset ? true : false
+            ]);
         }
     }
 
@@ -120,7 +116,10 @@ class utils {
      * @param \stdClass $user user
      */
     public static function handle_start_attempt($course, $cm, $user) {
-        global $DB, $OUTPUT, $SESSION;
+        global $DB, $OUTPUT;
+
+        $cache = \cache::make_from_params(\cache_store::MODE_SESSION, 'availability_examus2', 'session');
+
         $modinfo = get_fast_modinfo($course->id);
         $cminfo = $modinfo->get_cm($cm->id);
 
@@ -139,7 +138,7 @@ class utils {
             return;
         }
 
-        $accesscode = isset($SESSION->availability_examus2_accesscode) ? $SESSION->availability_examus2_accesscode : null;
+        $accesscode = $cache->get('accesscode');
         $entry = null;
         $reset = false;
         if ($accesscode) {
@@ -162,8 +161,8 @@ class utils {
             }
 
             if ($reset) {
-                unset($SESSION->availability_examus2_accesscode);
-                $SESSION->availability_examus2_reset = true;
+                $cache->delete('accesscode');
+                $cache->set('reset', true);
             }
 
             // We don't want to redirect at this stage.
@@ -218,12 +217,14 @@ class utils {
      * @param string $accesscode Accesscode/SessionId value
      */
     public static function handle_accesscode_param($accesscode) {
-        global $SESSION, $DB;
+        global $DB;
+
+        $cache = \cache::make_from_params(\cache_store::MODE_SESSION, 'availability_examus2', 'session');
 
         // User is coming from examus2, reset is done if it was requested before.
-        unset($SESSION->availability_examus2_reset);
+        $cache->delete('reset');
 
-        $SESSION->availability_examus2_accesscode = $accesscode;
+        $cache->set('accesscode', $accesscode);
 
         // We know accesscode is passed in params.
         $entry = $DB->get_record('availability_examus2_entries', [
@@ -243,7 +244,7 @@ class utils {
             $newentry = \availability_examus2\common::most_recent_entry($entry);
             if ($newentry && $newentry->id != $entry->id) {
                 $entry = $newentry;
-                $SESSION->availability_examus2_reset = true;
+                $cache->set('reset', true);
             }
 
             $modinfo = get_fast_modinfo($entry->courseid);
@@ -252,11 +253,11 @@ class utils {
             // The entry is already finished or canceled, we need to reset it.
             if (!in_array($entry->status, ['new', 'scheduled', 'started'])) {
                 $entry = \availability_examus2\common::create_entry($condition, $entry->userid, $cminfo);
-                $SESSION->availability_examus2_reset = true;
+                $cache->set('reset', true);
             }
         } else {
             // If entry does not exist, we need to create a new one and redirect.
-            $SESSION->availability_examus2_reset = true;
+            $cache->set('reset', true);
         }
 
         if ($entry) {

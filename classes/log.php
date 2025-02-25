@@ -132,8 +132,8 @@ class log {
                     $params[$key.'1'] = $value.'%';
                     $params[$key.'2'] = $value.'%';
 
-                    $email_like = $DB->sql_like("u.email", $key.'1');
-                    $username_like = $DB->sql_like("u.username", $key.'2');
+                    $email_like = $DB->sql_like("u.email", ':'.$key.'1');
+                    $username_like = $DB->sql_like("u.username", ':'.$key.'2');
                     $where[] = "({$email_like} OR {$username_like})";
                     break;
 
@@ -201,16 +201,26 @@ class log {
      * Sets up \flexible_table instance
      */
     protected function setup_table() {
+        global $OUTPUT;
+        
         $table = new \flexible_table('availability_examus2_table');
 
         $table->define_columns([
-            'selected', 'timefinish', 'timescheduled', 'u_email',
-            'courseid', 'cmid', 'status', 'review_link', 'score', 'details',
-            'create_entry',
+            'selected',
+            'timefinish',
+            'timescheduled',
+            'u_email',
+            'courseid',
+            'cmid',
+            'status',
+            'review_link',
+            'score',
+            'details',
+            'create_entry'
         ]);
 
         $table->define_headers([
-            "<input class='js-all-checkbox' type='checkbox' name='id' value='" . $entry->id . "'>",
+            $OUTPUT->render_from_template('availability_examus2/log_header_checkbox', []),
             get_string('time_finish', 'availability_examus2'),
             get_string('time_scheduled', 'availability_examus2'),
             get_string('user'),
@@ -220,7 +230,7 @@ class log {
             get_string('log_review', 'availability_examus2'),
             get_string('score', 'availability_examus2'),
             '',
-            '<input type="button" value="' . get_string('new_entry', 'availability_examus2') . '" class="btn btn-secondary js-new-entry-all-btn" disabled="disabled">'
+            $OUTPUT->render_from_template('availability_examus2/log_header_action', [])
         ]);
         
         $table->define_baseurl($this->url);
@@ -237,17 +247,31 @@ class log {
      * Renders and echoes log table
      */
     public function render_table() {
+        global $OUTPUT;
+
         $entries = $this->entries;
         $table = $this->table;
 
         if (!empty($entries)) {
             foreach ($entries as $entry) {
                 $scheduled = $entry->status == 'scheduled' && $entry->timescheduled;
-
                 $notstarted = $entry->status == 'new' || $scheduled;
+                $course = get_course($entry->courseid);
+                $modinfo = get_fast_modinfo($course);
+                try {
+                    $cm = $modinfo->get_cm($entry->cmid);
+                } catch (\moodle_exception $e) {
+                    $cm = null;
+                }
                 
                 $row = [];
-                $row[] = "<input class='js-item-checkbox' type='checkbox' name='id' force='" . (bool)$notstarted . "' value='" . $entry->id . "'>";
+                
+                $data = [
+                    'force' => $notstarted,
+                    'id' => $entry->id
+                ];
+                $row[] = $OUTPUT->render_from_template('availability_examus2/log_row_checkbox', $data);
+                
                 $row[] = common::format_date($entry->timefinish);
 
                 if ($entry->timescheduled) {
@@ -256,34 +280,23 @@ class log {
                     $row[] = '';
                 }
 
-                $row[] = $entry->u_firstname . " " . $entry->u_lastname . "<br>"
-                       . $entry->u_username
-                       . ' (' . $entry->u_email . ')';
-
-                $course = get_course($entry->courseid);
-                $modinfo = get_fast_modinfo($course);
-                try {
-                    $cm = $modinfo->get_cm($entry->cmid);
-                } catch (\moodle_exception $e) {
-                    $cm = null;
-                }
-
-                $reportlinks = [];
-                if ($entry->review_link !== null) {
-                     $reportlinks[] = "<a href='" . $entry->review_link . "'>"
-                                    . get_string('log_report_link', 'availability_examus2')
-                                    . "</a>";
-                }
-                if ($entry->archiveurl !== null) {
-                     $reportlinks[] = "<a href='" . $entry->archiveurl . "'>"
-                                    . get_string('log_archive_link', 'availability_examus2')
-                                    . "</a>";
-                }
+                $data = [
+                    'email' => $entry->u_email,
+                    'firstname' => $entry->u_firstname,
+                    'lastname' => $entry->u_lastname,
+                    'username' => $entry->u_username
+                ];
+                $row[] = $OUTPUT->render_from_template('availability_examus2/log_row_username', $data);
 
                 $row[] = $course->fullname;
                 $row[] = $cm ? $cm->get_formatted_name() : '';
                 $row[] = get_string('status_' . $entry->status, 'availability_examus2');
-                $row[] = implode(',&nbsp;', $reportlinks);
+
+                $data = [
+                    'archive_link' => $entry->archiveurl,
+                    'report_link' => $entry->review_link
+                ];
+                $row[] = $OUTPUT->render_from_template('availability_examus2/log_row_report', $data);
 
                 $row[] = $entry->score;
 
@@ -291,32 +304,24 @@ class log {
                     'id' => $entry->id,
                     'action' => 'show'
                 ]);
-
-                $row[] = '<a href="' . $detailsurl . '">' . get_string('details', 'availability_examus2') . '</a>';
+                $data = [
+                    'url' => $detailsurl
+                ];
+                $row[] = $OUTPUT->render_from_template('availability_examus2/log_row_details', $data);
 
                 // Changed condition. Allow to reset all entries.
                 // Consequences unknown.
-                if (!$notstarted) {
-                    $row[] =
-                        "<form action='index.php?" . $this->url_param_link . "' method='post'>" .
-                           "<input type='hidden' name='id' value='" . $entry->id . "'>" .
-                           "<input type='hidden' name='action' value='renew'>" .
-                           "<input type='submit' value='" . get_string('new_entry', 'availability_examus2') . "'>".
-                        "</form>";
-                } else {
-                    $row[] =
-                        "<form action='index.php?" . $this->url_param_link . "' method='post'>" .
-                           "<input type='hidden' name='id' value='" . $entry->id . "'>" .
-                           "<input type='hidden' name='force' value='true'>" .
-                           "<input type='hidden' name='action' value='renew'>" .
-                           "<input type='submit' value='" . get_string('new_entry_force', 'availability_examus2') . "'>".
-                        "</form>";
-                }
+                $data = [
+                    'force' => $notstarted,
+                    'id' => $entry->id,
+                    'url' => $this->url_param_link
+                ];
+                $row[] = $OUTPUT->render_from_template('availability_examus2/log_row_action', $data);
+
                 $table->add_data($row);
             }
             $table->print_html();
         }
-
     }
 
     /**

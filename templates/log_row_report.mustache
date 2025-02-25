@@ -1,0 +1,37 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template availability_examus2/log_row_report
+
+    Log table report row
+
+    Example context (json):
+    {
+        "archive_link": "https://moodle.org",
+        "report_link": "https://moodle.org"
+    }
+}}
+
+<div>
+{{#report_link}}
+    <a href="{{{report_link}}}">{{#str}}log_report_link, availability_examus2{{/str}}</a>
+    {{#archive_link}}<span>,&nbsp;</span>{{/archive_link}}
+{{/report_link}}
+{{#archive_link}}
+    <a href="{{{archive_link}}}">{{#str}}log_archive_link, availability_examus2{{/str}}</a>
+{{/archive_link}}
+</div>
