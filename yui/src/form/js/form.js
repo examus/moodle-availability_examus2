@@ -106,8 +106,8 @@ M.availability_examus2.form.getNode = function(json) {
                 '<div class=&quot;no-overflow&quot;>' +
                 '<p>' + hint + '</p></div> " data-html="true" tabindex="0" ' +
                 'data-trigger="focus" data-original-title="" title="">' +
-                '<i class="icon fa fa-question-circle text-info fa-fw " title="Справка по использованию' +
-                '" aria-label="Справка по использованию"> ' +
+                '<i class="icon fa fa-question-circle text-info fa-fw " title="' + getString('hint') +
+                '" aria-label="' + getString('hint') + '"> ' +
                 '</i></a>' : '') +
             '</div>' +
             '</span>';

@@ -166,6 +166,10 @@ $string['fader_awaiting_proctoring'] = 'Checking that proctoring is running...';
 $string['fader_instructions'] = '<p>It won\'t take long</p>';
 $string['fader_reset'] = 'Session was reset, you need to restart the exam';
 
+//Redirect screen
+$string['redirect_btn'] = 'Go to Examus';
+$string['redirect_title'] = 'Redirecting to Examus';
+
 // Dafault settings
 $string['defaults'] = 'Default proctoring settings';
 $string['defaults_proctoring_settings'] = 'Examusing settings';
@@ -224,6 +228,7 @@ $string['privacy:metadata:availability_examus2_entries:sessionend'] = 'Time when
 
 //Hint text
 
+$string['hint'] = 'Usage help';
 $string['duration_desc'] = 'Test duration. In case creating a calendar entry is required for the exam, the exam duration must be equal to the duration of the calendar slot! If the slot lasts 60 minutes, the exam should also be 60 minutes long.<br>This duration should always be a multiple of 30 minutes. If the test lasts 40 minutes, the time limit will need to be set to 60 minutes.<br><b>Important:</b> Examus does not end the exam after the time has passed.';
 $string['proctoring_mode_desc'] = 'Choose the proctoring mode for the test:<br><ul><li><li>Synchronous (Exam with live proctor)</li><li>Asynchronous (Exam with post-viewing of the video)</li><li>Automatic (Exam with automatically awarded status based on scoring)</li><li>Identification (An exam in which the proctor only identifies the user, but does not participate in monitoring during the exam — AI does it).</li></ul>';
 $string['identification_desc'] = 'Requesting a photo during the identification step.<br><ul><li>Passport - request a photo of the document only.</li><li>Face - request a photo of the face only.</li><li>Face and Passport - Request a photo of the face first, then the document.</li><li>Skip - skip the identification step, without requesting a face and/or passport. *</li></ul><br><b>Important:</b> * we recommend using Skip if biometric identification will be used. If biometrics will not be used, specify Face/Passport!';

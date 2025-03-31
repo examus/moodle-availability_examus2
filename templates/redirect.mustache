@@ -33,7 +33,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Redirecting to Examus</title>
+        <title>{{#str}}redirect_title, availability_examus2{{/str}}</title>
         </head>
     <body>
         <div style="text-align: center">
@@ -41,7 +41,7 @@
                 {{#token}}
                     <input type="hidden" value="{{token}}" name="token">
                 {{/token}}
-                <button type="submit">Go to Examus</button>
+                <button type="submit">{{#str}}redirect_btn, availability_examus2{{/str}}</button>
             </form>
         </div>
         <script type="text/javascript">
