@@ -51,7 +51,7 @@ if (empty($auth) || !preg_match('/JWT /', $auth)) {
 }
 $token = explode(' ', $_SERVER['HTTP_AUTHORIZATION'])[1];
 
-$client = new client(null);
+$client = new client();
 
 try {
     $client->decode($token);

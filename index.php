@@ -89,10 +89,20 @@ if ($action == 'renew') {
     $url_param_link = new moodle_url('/availability/condition/examus2/index.php', $filters);
 
     if ($error_exist_ids) {
-        return redirect($url_param_link, get_string('entry_exist', 'availability_examus2') . '<br> ID: ' . implode(', ', $error_exist_ids), null, \core\output\notification::NOTIFY_ERROR);
+        return redirect(
+            $url_param_link,
+            get_string('entry_exist', 'availability_examus2') . '<br> ID: ' . implode(', ', $error_exist_ids),
+            null,
+            \core\output\notification::NOTIFY_ERROR
+        );
     }
     
-    return redirect($url_param_link, get_string('new_entry_created', 'availability_examus2') . '<br> ID: ' . implode(', ', $success_exist_ids), null, \core\output\notification::NOTIFY_SUCCESS);
+    return redirect(
+        $url_param_link,
+        get_string('new_entry_created', 'availability_examus2') . '<br> ID: ' . implode(', ', $success_exist_ids),
+        null,
+        \core\output\notification::NOTIFY_SUCCESS
+    );
 }
 
 if ($action == 'index') {

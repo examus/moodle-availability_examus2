@@ -76,7 +76,7 @@ class utils {
         $timebracket = common::get_timebracket_for_cm('quiz', $cm);
         $lang = current_language();
 
-        $client = new client($condition);
+        $client = new client($condition, $USER->id);
         $data = $client->exam_data($course, $cm);
         $userdata = $client->user_data($USER, $lang);
         $biometrydata = $client->biometry_data($USER);
@@ -188,7 +188,7 @@ class utils {
 
         $lang = current_language();
 
-        $client = new \availability_examus2\client($condition);
+        $client = new \availability_examus2\client($condition, $user->id);
         $data = $client->exam_data($course, $cminfo);
         $userdata = $client->user_data($user, $lang);
         $biometrydata = $client->biometry_data($user);

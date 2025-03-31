@@ -101,7 +101,11 @@ class defaults_form extends \moodleform {
         $mform->addElement('advcheckbox', 'allowmobiledevices', get_string('allowmobiledevices',  'availability_examus2'));
         $mform->setType('allowmobiledevices', PARAM_BOOL);
 
-        $mform->addElement('advcheckbox', 'allowvirtualenvironment', get_string('allowvirtualenvironment',  'availability_examus2'));
+        $mform->addElement(
+            'advcheckbox',
+            'allowvirtualenvironment',
+            get_string('allowvirtualenvironment',  'availability_examus2')
+        );
         $mform->setType('allowvirtualenvironment', PARAM_BOOL);
 
         $mform->addElement('advcheckbox', 'checkidphotoquality', get_string('checkidphotoquality',  'availability_examus2'));
@@ -121,10 +125,19 @@ class defaults_form extends \moodleform {
         $mform->addElement('textarea', 'customrules', get_string('custom_rules', 'availability_examus2'));
         $mform->setType('customrules', PARAM_TEXT);
 
-        $mform->addElement('textarea', 'desktopAppForbiddenProcesses', get_string('desktop_app_forbidden_processes', 'availability_examus2'));
+        $mform->addElement(
+            'textarea',
+            'desktopAppForbiddenProcesses',
+            get_string('desktop_app_forbidden_processes',
+            'availability_examus2')
+        );
         $mform->setType('desktopAppForbiddenProcesses', PARAM_TEXT);
         
-        $mform->addElement('textarea', 'desktopAppAllowedProcesses', get_string('desktop_app_allowed_processes', 'availability_examus2'));
+        $mform->addElement(
+            'textarea',
+            'desktopAppAllowedProcesses',
+            get_string('desktop_app_allowed_processes', 'availability_examus2')
+        );
         $mform->setType('desktopAppAllowedProcesses', PARAM_TEXT);
 
         $mform->addElement('header', 'visible_warnings', get_string('visible_warnings', 'availability_examus2'));
