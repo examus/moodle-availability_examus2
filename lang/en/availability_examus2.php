@@ -226,6 +226,14 @@ $string['privacy:metadata:availability_examus2_entries:warnings'] = 'List of war
 $string['privacy:metadata:availability_examus2_entries:sessionstart'] = 'Time when proctoring session started';
 $string['privacy:metadata:availability_examus2_entries:sessionend'] = 'Time when proctoring session ended';
 
+$string['privacy:metadata:availability_examus2_external'] = 'To integrate with the Examus proctoring system, user data is transmitted via API. This enables user authentication, proctoring session creation, and identity verification. The exported fields are required to establish and monitor proctoring sessions.';
+$string['privacy:metadata:availability_examus2_external:username'] = 'The username is transmitted to uniquely identify the user’s account in Examus, ensuring accurate linkage between the testing session and their profile. It serves as a unique identifier for the session.';
+$string['privacy:metadata:availability_examus2_external:firstname'] = 'The first name is provided for precise identification in proctoring reports and interfaces, aligning with institutional records. This field is optional and not required.';
+$string['privacy:metadata:availability_examus2_external:lastname'] = 'The last name is used to match the user’s identity with official data, simplifying administrative oversight. This field is optional and not required.';
+$string['privacy:metadata:availability_examus2_external:middlename'] = 'The patronymic (if applicable) is included to comply with naming standards and ensure full-name consistency. This field is optional and not required.';
+$string['privacy:metadata:availability_examus2_external:email'] = 'The email address is required for system notifications and user identification within Examus.';
+$string['privacy:metadata:availability_examus2_external:userpicture'] = 'The profile photo (using the avatar from the Moodle profile) is used for visual identity verification during proctoring sessions to prevent impersonation and ensure compliance. This field is optional and not required.';
+
 //Hint text
 
 $string['hint'] = 'Usage help';
