@@ -83,13 +83,18 @@ class client {
 
     /** @var \availability_examus2\condition Availability condition */
     protected $condition;
+    
+    /** @var int Moodle userid */
+    protected $userid;
 
     /**
      * Initializes variables form plugin config and availability condition
      * @param \availability_examus2\condition $condition Availability condition
+     * @param int $userid Moodle userid
      */
-    public function __construct($condition=null) {
+    public function __construct($condition = null, $userid = null) {
         $this->condition = $condition;
+        $this->userid = $userid;
         $this->examusurl = get_config('availability_examus2', 'examus_url');
         $this->integrationname = get_config('availability_examus2', 'integration_name');
         $this->jwtsecret = get_config('availability_examus2', 'jwt_secret');
@@ -289,7 +294,9 @@ class client {
      * @return array
      */
     public function biometry_data($user) {
-        global $PAGE;
+        global $CFG, $PAGE;
+        require_once $CFG->dirroot.'/user/profile/lib.php';
+
         $userpicture = new \user_picture($user);
         $userpicture->size = 1; // Size f1.
         $userpicture->includetoken = $user->id;
@@ -297,14 +304,20 @@ class client {
 
         $conditiondata = $this->condition->to_json();
 
+        $data = [
+            'enabled' => $conditiondata['biometryenabled'],
+            'skip_fail' => $conditiondata['biometryskipfail'],
+            'flow' => $conditiondata['biometryflow'],
+            'theme' => $conditiondata['biometrytheme'],
+            'photo_url' => $profileimageurl
+        ];
+
+        $userdata = \profile_user_record($user->id);
+        if (isset($userdata->OID) && $userdata->OID)
+            $data['esia_oid'] =  $userdata->OID;
+
         return [
-            'biometricIdentification' => [
-                'enabled' => $conditiondata['biometryenabled'],
-                'skip_fail' => $conditiondata['biometryskipfail'],
-                'flow' => $conditiondata['biometryflow'],
-                'theme' => $conditiondata['biometrytheme'],
-                'photo_url' => $profileimageurl,
-            ],
+            'biometricIdentification' => $data,
         ];
     }
 

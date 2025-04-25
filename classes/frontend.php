@@ -109,7 +109,8 @@ class frontend extends \core_availability\frontend {
             'scoring_params_header_desc',
             'user_agreement_url_desc',
             'enabledAllowedProcesses',
-            'enabledForbiddenProcesses'
+            'enabledForbiddenProcesses',
+            'hint'
         ];
 
         foreach (condition::WARNINGS as $key => $value) {

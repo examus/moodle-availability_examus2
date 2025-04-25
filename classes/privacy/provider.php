@@ -66,6 +66,14 @@ class provider implements
             ],
             'privacy:metadata:availability_examus2_entries'
         );
+        $collection->add_external_location_link('examus2_external', [
+            'username' => 'privacy:metadata:availability_examus2_external:username',
+            'firstname' => 'privacy:metadata:availability_examus2_external:firstname',
+            'lastname' => 'privacy:metadata:availability_examus2_external:lastname',
+            'middlename' => 'privacy:metadata:availability_examus2_external:middlename',
+            'email' => 'privacy:metadata:availability_examus2_external:email',
+            'userpicture' => 'privacy:metadata:availability_examus2_external:userpicture',
+        ], 'privacy:metadata:availability_examus2_external');
 
         return $collection;
     }

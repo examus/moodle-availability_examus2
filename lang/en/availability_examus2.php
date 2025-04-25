@@ -166,6 +166,10 @@ $string['fader_awaiting_proctoring'] = 'Checking that proctoring is running...';
 $string['fader_instructions'] = '<p>It won\'t take long</p>';
 $string['fader_reset'] = 'Session was reset, you need to restart the exam';
 
+//Redirect screen
+$string['redirect_btn'] = 'Go to Examus';
+$string['redirect_title'] = 'Redirecting to Examus';
+
 // Dafault settings
 $string['defaults'] = 'Default proctoring settings';
 $string['defaults_proctoring_settings'] = 'Examusing settings';
@@ -222,8 +226,17 @@ $string['privacy:metadata:availability_examus2_entries:warnings'] = 'List of war
 $string['privacy:metadata:availability_examus2_entries:sessionstart'] = 'Time when proctoring session started';
 $string['privacy:metadata:availability_examus2_entries:sessionend'] = 'Time when proctoring session ended';
 
+$string['privacy:metadata:availability_examus2_external'] = 'To integrate with the Examus proctoring system, user data is transmitted via API. This enables user authentication, proctoring session creation, and identity verification. The exported fields are required to establish and monitor proctoring sessions.';
+$string['privacy:metadata:availability_examus2_external:username'] = 'The username is transmitted to uniquely identify the user’s account in Examus, ensuring accurate linkage between the testing session and their profile. It serves as a unique identifier for the session.';
+$string['privacy:metadata:availability_examus2_external:firstname'] = 'The first name is provided for precise identification in proctoring reports and interfaces, aligning with institutional records. This field is optional and not required.';
+$string['privacy:metadata:availability_examus2_external:lastname'] = 'The last name is used to match the user’s identity with official data, simplifying administrative oversight. This field is optional and not required.';
+$string['privacy:metadata:availability_examus2_external:middlename'] = 'The patronymic (if applicable) is included to comply with naming standards and ensure full-name consistency. This field is optional and not required.';
+$string['privacy:metadata:availability_examus2_external:email'] = 'The email address is required for system notifications and user identification within Examus.';
+$string['privacy:metadata:availability_examus2_external:userpicture'] = 'The profile photo (using the avatar from the Moodle profile) is used for visual identity verification during proctoring sessions to prevent impersonation and ensure compliance. This field is optional and not required.';
+
 //Hint text
 
+$string['hint'] = 'Usage help';
 $string['duration_desc'] = 'Test duration. In case creating a calendar entry is required for the exam, the exam duration must be equal to the duration of the calendar slot! If the slot lasts 60 minutes, the exam should also be 60 minutes long.<br>This duration should always be a multiple of 30 minutes. If the test lasts 40 minutes, the time limit will need to be set to 60 minutes.<br><b>Important:</b> Examus does not end the exam after the time has passed.';
 $string['proctoring_mode_desc'] = 'Choose the proctoring mode for the test:<br><ul><li><li>Synchronous (Exam with live proctor)</li><li>Asynchronous (Exam with post-viewing of the video)</li><li>Automatic (Exam with automatically awarded status based on scoring)</li><li>Identification (An exam in which the proctor only identifies the user, but does not participate in monitoring during the exam — AI does it).</li></ul>';
 $string['identification_desc'] = 'Requesting a photo during the identification step.<br><ul><li>Passport - request a photo of the document only.</li><li>Face - request a photo of the face only.</li><li>Face and Passport - Request a photo of the face first, then the document.</li><li>Skip - skip the identification step, without requesting a face and/or passport. *</li></ul><br><b>Important:</b> * we recommend using Skip if biometric identification will be used. If biometrics will not be used, specify Face/Passport!';

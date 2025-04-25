@@ -172,7 +172,7 @@ function avalibility_examus2_attempt_submitted_handler($event) {
 
     $redirecturl = new moodle_url('/mod/quiz/review.php', ['attempt' => $attempt->id, 'cmid' => $cmid]);
 
-    $client = new client();
+    $client = new client(null, $userid);
     $client->finish_session($entry->accesscode, $redirecturl->out(false));
 }
 
