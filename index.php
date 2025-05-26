@@ -31,8 +31,6 @@ $context = context_system::instance();
 require_login();
 require_capability('availability/examus2:logaccess', $context);
 
-global $PAGE;
-
 $baseurl = '/availability/condition/examus2/index.php';
 
 $action = optional_param('action', 'index', PARAM_ALPHA);

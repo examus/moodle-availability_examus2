@@ -165,24 +165,6 @@ class defaults_form extends \moodleform {
         $mform->addElement('text', 'biometrytheme', get_string('biometry_theme', 'availability_examus2'));
         $mform->setType('biometrytheme', PARAM_TEXT);
 
-        //Option for default groups is temporary disabled due to usabillity issues
-        /*
-        $mform->addElement('header', 'examus2ed_groups', get_string('select_groups', 'availability_examus2'));
-        $coursegroups = $this->get_group_options();
-
-        foreach ($coursegroups as $courseid => $value) {
-            $coursename = $value['name'];
-            $options = $value['options'];
-            $elements = [];
-            foreach($options as $groupid => $group) {
-                $fieldname = 'groups['.$courseid.']['.$group->id.']';
-                $elements[] = $mform->createElement('checkbox', $fieldname, $group->name);
-                $elements[] = $mform->createElement('html', '<br>');
-            }
-            $mform->addGroup($elements, 'availablefromgroup', $coursename, ' ', false);
-        }
-        */
-
         $this->add_action_buttons();
 
         foreach (condition::BOOL_DEFAULTS as $key => $value) {

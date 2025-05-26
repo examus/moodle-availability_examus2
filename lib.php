@@ -36,7 +36,7 @@ use availability_examus2\utils;
  * @return string
  */
 function availability_examus2_before_standard_html_head() {
-    global $DB, $USER;
+    global $DB;
 
     // If there is no active attempt, do nothing.
     if (isset(state::$attempt['attempt_id'])) {

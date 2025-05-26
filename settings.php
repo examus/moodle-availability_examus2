@@ -49,8 +49,6 @@ if ($hassiteconfig) {
     $ADMIN->add('availability_examus2_admin', $defaultspage);
     $ADMIN->add('availability_examus2_admin', $pluginsettings);
 
-    //$ADMIN->add('availability_examus2_admin', $logpage);
-
     if ($ADMIN->fulltree) {
         $pluginsettings->add(new admin_setting_configtext('availability_examus2/examus_url',
             new lang_string('settings_examus_url', 'availability_examus2'),
