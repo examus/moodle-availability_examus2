@@ -15,17 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Availability plugin for integration with Examus.
+ * This file contains mappings for classes that have been renamed.
  *
  * @package    availability_examus2
- * @copyright  2019-2022 Maksim Burnin <maksim.burnin@gmail.com>
+ * @copyright  2025 Evgenii Soldatkin <e.v.soldatkin@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'availability_examus2';
-$plugin->version = 2025052600;
-$plugin->release = 'v2.0.40';
-$plugin->requires = 2018111800;
-$plugin->maturity = MATURITY_STABLE;
+$renamedclasses = [
+    // Since Moodle 4.2.
+    'quiz_access_manager' => 'mod_quiz\access_manager',
+    'quiz_attempt' => 'mod_quiz\quiz_attempt',
+    'quiz' => 'mod_quiz\quiz_settings',
+];
