@@ -82,5 +82,3 @@ $form->display();
 
 // Footer.
 echo $OUTPUT->footer();
-
-

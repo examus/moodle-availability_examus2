@@ -27,7 +27,6 @@ namespace availability_examus2;
 defined('MOODLE_INTERNAL') || die();
 
 use \stdClass;
-use availability_examus2\condition;
 
 /**
  * Collection of static methods, used throughout the code
