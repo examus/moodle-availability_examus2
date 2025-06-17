@@ -26,13 +26,9 @@ namespace availability_examus2;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/quiz/locallib.php');
-
 use core_availability\info_module;
 use moodle_exception;
-use quiz;
 use stdClass;
-use availability_examus2\state;
 
 /**
  * Examus condition
