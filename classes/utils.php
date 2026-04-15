@@ -56,7 +56,7 @@ class utils {
         }
 
         // We want to let previews to happen without proctoring.
-        $quizobj = \quiz::create($cm->instance, $USER->id);
+        $quizobj = \mod_quiz\quiz_settings::create($cm->instance, $USER->id);
         if ($quizobj->is_preview_user()) {
             return '';
         }
@@ -93,7 +93,7 @@ class utils {
         }
 
         $entryisactive = in_array($entry->status, ['started', 'scheduled', 'new']);
-        $attemptinprogess = $attempt && $attempt->state == \quiz_attempt::IN_PROGRESS;
+        $attemptinprogess = $attempt && $attempt->state == \mod_quiz\quiz_attempt::IN_PROGRESS;
 
         if ($entryisactive || $attemptinprogess) {
             // We have to pass formdata in any case because exam can be opened outside iframe.
@@ -129,7 +129,7 @@ class utils {
         }
 
         // We want to let previews to happen without proctoring.
-        $quizobj = \quiz::create($cminfo->instance, $user->id);
+        $quizobj = \mod_quiz\quiz_settings::create($cminfo->instance, $user->id);
         if ($quizobj->is_preview_user()) {
             return;
         }
