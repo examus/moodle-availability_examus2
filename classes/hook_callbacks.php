@@ -39,7 +39,7 @@ class hook_callbacks {
         if (isset(state::$attempt['attempt_id'])) {
             $attemptid = state::$attempt['attempt_id'];
             $attempt = $DB->get_record('quiz_attempts', ['id' => $attemptid]);
-            if ($attempt && $attempt->state == \quiz_attempt::IN_PROGRESS)
+            if ($attempt && $attempt->state == \mod_quiz\quiz_attempt::IN_PROGRESS)
                 $hook->add_html(utils::handle_proctoring_fader($attempt));
         }
     }
